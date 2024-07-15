@@ -1,31 +1,17 @@
-import { FaHome } from 'react-icons/fa';
+import { FaHome} from 'react-icons/fa';
+import { IoCarSportSharp  } from "react-icons/io5";
+
+import Link from 'next/link';
 
 export default function AdminMenu() {
   return (
     <div className=''>
       <ul className='adminMenuList'>
         <li>
-          <FaHome /> <a href="/">Dashboard</a>
+          <FaHome /> <Link href="/">Dashboard</Link>
         </li>
         <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>
-        <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>
-        <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>      <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>
-        <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>
-        <li>
-          <FaHome /> <a href="/">Dashboard</a>
-        </li>
-        <li>
-          <FaHome /> <a href="/">Dashboard</a>
+          <IoCarSportSharp  /> <Link href="/listing">Listing</Link>
         </li>
       </ul>
     </div>
