@@ -51,7 +51,7 @@ export default function CarListing() {
   };
 
   const renderSkeleton = () => (
-    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md">
+    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
       <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
       <Skeleton className="h-5 w-[100%] mb-1" />
       <Skeleton className="h-5 w-[60%] mb-1" />
@@ -61,7 +61,7 @@ export default function CarListing() {
   return (
     <div className="container">
       {loading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4">
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
@@ -80,9 +80,9 @@ export default function CarListing() {
       )}
 
       {!loading && !error && !notFound && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
           {listing.map((item) => (
-            <div key={item._id} className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white">
+            <div key={item._id} className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white ">
               <Image
                 src={item.image}
                 className="h-[180px] w-[100%] rounded-xl mb-2"

@@ -22,11 +22,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Header />
-          <div className="flex p-6 mt-1">
-            <div className="fixed w-60">
+          <div className="flex">
+            <div className="fixed w-64 p-4 ">
               <AdminMenu />
             </div>
-            <div className="ml-60  w-full">
+            <div className="ml-64  w-full  h-full bg-emerald-50 p-4">
               {children}
             </div>
           </div>

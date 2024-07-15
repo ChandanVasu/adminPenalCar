@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+/* body{
   background-color: #f7f7ff;
-}
+} */
 
 .logo-img{
   height: 40px;
@@ -19,15 +19,17 @@ body{
 }
 
 .adminMenuList li{
-  background-color: rgb(255, 255, 255);
-  margin: 10px 15px;
+  background-color: rgb(255, 240, 254);
+  margin: 15px 15px;
   padding: 10px;
   border-radius: 10px;
 }
 
 .adminMenuList li svg{
   font-size: 20px;
+  color: rgb(0, 0, 0) !important;
 }
 .adminMenuList li a{
   font-size: 15px;
+  font-weight: 500;
 }

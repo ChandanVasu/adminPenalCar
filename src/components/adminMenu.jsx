@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function AdminMenu() {
   return (
     <div className=''>
-      <ul className='adminMenuList'>
+      <ul className='adminMenuList '>
         <li>
           <FaHome /> <Link href="/">Dashboard</Link>
         </li>
