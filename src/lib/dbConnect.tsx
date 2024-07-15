@@ -1,0 +1,1 @@
+export const connectionStart = "mongodb+srv://vasu:vasu@vasux.0hbsfrn.mongodb.net/CarRental?retryWrites=true&w=majority&appName=vasux"
