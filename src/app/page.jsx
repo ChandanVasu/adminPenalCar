@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
 
-import AddList from "@/components/block/AddList"; // Ensure the path and naming are correct
+import AddList from "@/components/block/addList"; // Ensure the path and naming are correct
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
