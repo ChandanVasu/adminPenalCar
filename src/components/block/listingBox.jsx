@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image, Skeleton } from "@nextui-org/react";
+import { MdOutlineDelete } from "react-icons/md";
+
 
 export default function CarListing() {
   const [listing, setListing] = useState([]);
@@ -81,21 +83,26 @@ export default function CarListing() {
 
       {!loading && !error && !notFound && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
-          {listing.map((item) => (
+          {listing.map((item, index) => (
             <div key={item._id} className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white ">
               <Image
                 src={item.image}
                 className="h-[180px] w-[100%] rounded-xl mb-2"
                 alt={item.title}
               />
-              <p className="text-black dark:text-white">Title: {item.title}</p>
-              <p className="text-black dark:text-white">Price: {item.price}</p>
-              <button 
+              <div className="flex justify-between">
+                <div className="relative">
+                <p className="text-black dark:text-white">Title: {item.title}</p>
+                <p className="text-black dark:text-white">Price: {item.price}</p>
+                <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold	">{index + 1}</p>
+                </div>
+                <i
                 onClick={() => deleteItem(item._id)}
-                className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-              >
-                Delete
-              </button>
+                className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black">
+                <MdOutlineDelete /></i>
+              </div>
+
+
             </div>
           ))}
         </div>

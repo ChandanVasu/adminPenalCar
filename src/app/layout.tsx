@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import AdminMenu from "@/components/adminMenu";
 import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Poppins({ subsets: ["latin"], weight:['100', '300', '700'], variable:'--poppins-font' });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,10 +23,10 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="flex">
-            <div className="fixed w-64 p-4 ">
+            <div className="fixed w-64 p-4 bg-slate-50 h-full ">
               <AdminMenu />
             </div>
-            <div className="ml-64  w-full  h-full bg-emerald-50 p-4">
+            <div className="ml-64  w-full  h-full bg-white p-4">
               {children}
             </div>
           </div>
