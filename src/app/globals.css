@@ -37,3 +37,7 @@
 .poppins{
   font-family: var(--poppins-font);
 }
+
+.ck-powered-by{
+  display: none !important;
+}

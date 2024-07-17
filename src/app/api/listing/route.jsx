@@ -55,6 +55,12 @@ export async function POST(req) {
 
         const postData = await req.json(); // Assuming POST data is JSON
 
+        // Generate a random 6-digit number
+        const randomSixDigitNumber = Math.floor(100000 + Math.random() * 900000);
+
+        // Add the custom key-value pair
+        postData['id'] = randomSixDigitNumber;
+
         const insertResult = await mainPostCollection.insertOne(postData); // Insert data
 
         return NextResponse.json({ message: "Post added successfully", postId: insertResult.insertedId, postData });

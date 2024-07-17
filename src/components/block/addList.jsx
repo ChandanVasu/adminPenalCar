@@ -1,13 +1,15 @@
-"use client"
-
-import { useState } from "react"
+import { useState } from "react";
 import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/react";
+import dynamic from "next/dynamic";
+import JoditEditor from "jodit-react";
 
-export default function PostList() {
+const PostList = () => {
     const [formData, setFormData] = useState({
         title: "",
         image: "",
-        price: ""
+        price: "",
+        description: ""
     });
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
@@ -18,35 +20,38 @@ export default function PostList() {
             ...formData,
             [name]: value
         });
-    }
+    };
 
-    const submitData = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async () => {
         // Validation check
-        if (!formData.title || !formData.image || !formData.price) {
+        if (!formData.title || !formData.image || !formData.price || !formData.description) {
             setError("All fields are required");
             return;
         }
 
         setError(null); // Clear any previous error
 
-        const res = await fetch("/api/listing", {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        try {
+            const res = await fetch("/api/listing", {
+                method: "POST",
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        const data = await res.json();
-        setResponse(data);
-    }
+            const data = await res.json();
+            setResponse(data);
+        } catch (error) {
+            setError("Error submitting data. Please try again.");
+            console.error("Error submitting data:", error);
+        }
+    };
 
     return (
-        <div className=" p-2 bg-white rounded-lg ">
-            <form onSubmit={submitData} className="space-y-6">
-                {error && <div className="text-red-500 text-sm">{error}</div>}
+        <div className="p-2 bg-white rounded-lg">
+            {error && <div className="text-red-500 text-sm">{error}</div>}
+            <div className="space-y-6">
                 <div>
                     <Input
                         type="text"
@@ -69,7 +74,7 @@ export default function PostList() {
                         onChange={handleChange}
                         className="mt-1 block w-full px-0 py-0 border-none shadow-none focus:outline-none focus:ring-0 sm:text-sm"
                         placeholder="Enter Image Url"
-                    />  
+                    />
                 </div>
                 <div>
                     <Input
@@ -82,17 +87,30 @@ export default function PostList() {
                         className="mt-1 block w-full px-0 py-0 border-none shadow-none focus:outline-none focus:ring-0 sm:text-sm"
                         placeholder="Enter price"
                     />
-                </div >
-                <div >
-                    <button
-                        type="submit"
-                        className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Submit
-                    </button>
                 </div>
-            </form>
-
+                <div>
+                    <JoditEditor
+                        value={formData.description}
+                        onChange={(newContent) => setFormData({ ...formData, description: newContent })}
+                        tabIndex={1} // tabIndex of textarea
+                        className="mt-1 block w-full h-48"
+                        placeholder="Enter description"
+                    />
+                </div>
+                <div className="!mt-16">
+                    <Button
+                        type="button"
+                        onClick={handleSubmit}
+                        color="primary"
+                        variant="shadow"
+                        className="">
+                        Submit
+                    </Button>
+                </div>
+            </div>
             {response && <div className="mt-4 p-4 bg-green-100 rounded-lg">{JSON.stringify(response)}</div>}
         </div>
     );
-}
+};
+
+export default PostList;

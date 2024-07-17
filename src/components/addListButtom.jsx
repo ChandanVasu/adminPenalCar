@@ -30,7 +30,7 @@ export default function App() {
         </div>
 
       </div>
-      <Modal backdrop={backdrop} isOpen={isOpen} onClose={handleClose}>
+      <Modal size="full" scrollBehavior="outside" backdrop={backdrop} isOpen={isOpen} onClose={handleClose}>
         <ModalContent>
           <>
             <ModalHeader className="flex flex-col gap-1 poppins">Add New Listing</ModalHeader>
