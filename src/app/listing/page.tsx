@@ -1,7 +1,9 @@
 "use client"
+import dynamic from 'next/dynamic';
 import React from "react";
-import ProductList from "@/components/block/listingBox"
-import AddListButtom from "@/components/addListButtom"
+
+const ProductList = dynamic(() => import("@/components/block/listingBox"), { ssr: false });
+const AddListButtom = dynamic(() => import("@/components/addListButtom"), { ssr: false });
 
 export default function App() {
   return (
@@ -9,5 +11,5 @@ export default function App() {
       <AddListButtom></AddListButtom>
       <ProductList></ProductList>
     </div>
-    );
+  );
 }
