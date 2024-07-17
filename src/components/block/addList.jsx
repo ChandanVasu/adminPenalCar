@@ -2,7 +2,83 @@ import { useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
 import dynamic from "next/dynamic";
-import JoditEditor from "jodit-react";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+
+import {
+    ClassicEditor,
+    AccessibilityHelp,
+    Alignment,
+    Autoformat,
+    AutoImage,
+    AutoLink,
+    Autosave,
+    BalloonToolbar,
+    BlockQuote,
+    BlockToolbar,
+    Bold,
+    CloudServices,
+    Code,
+    CodeBlock,
+    Essentials,
+    FindAndReplace,
+    FontBackgroundColor,
+    FontColor,
+    FontFamily,
+    FontSize,
+    FullPage,
+    GeneralHtmlSupport,
+    Heading,
+    Highlight,
+    HorizontalLine,
+    HtmlComment,
+    HtmlEmbed,
+    ImageBlock,
+    ImageCaption,
+    ImageInline,
+    ImageInsertViaUrl,
+    ImageResize,
+    ImageStyle,
+    ImageTextAlternative,
+    ImageToolbar,
+    ImageUpload,
+    Indent,
+    IndentBlock,
+    Italic,
+    Link,
+    LinkImage,
+    List,
+    ListProperties,
+    Markdown,
+    MediaEmbed,
+    Mention,
+    Paragraph,
+    PasteFromMarkdownExperimental,
+    PasteFromOffice,
+    RemoveFormat,
+    SelectAll,
+    SourceEditing,
+    SpecialCharacters,
+    SpecialCharactersArrows,
+    SpecialCharactersCurrency,
+    SpecialCharactersEssentials,
+    SpecialCharactersLatin,
+    SpecialCharactersMathematical,
+    SpecialCharactersText,
+    Strikethrough,
+    Subscript,
+    Table,
+    TableCaption,
+    TableCellProperties,
+    TableColumnResize,
+    TableProperties,
+    TableToolbar,
+    TextTransformation,
+    TodoList,
+    Underline,
+    Undo
+} from 'ckeditor5';
+
+import 'ckeditor5/ckeditor5.css';
 
 const PostList = () => {
     const [formData, setFormData] = useState({
@@ -14,102 +90,329 @@ const PostList = () => {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    const editorConfig = {
+        toolbar: {
+            items: [
+                'undo',
+                'redo',
+                '|',
+                'sourceEditing',
+                'findAndReplace',
+                'selectAll',
+                '|',
+                'heading',
+                '|',
+                'fontSize',
+                'fontFamily',
+                'fontColor',
+                'fontBackgroundColor',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'subscript',
+                'code',
+                'removeFormat',
+                '|',
+                'specialCharacters',
+                'horizontalLine',
+                'link',
+                'mediaEmbed',
+                'insertTable',
+                'highlight',
+                'blockQuote',
+                'codeBlock',
+                'htmlEmbed',
+                '|',
+                'alignment',
+                '|',
+                'bulletedList',
+                'numberedList',
+                'todoList',
+                'indent',
+                'outdent',
+                '|',
+                'accessibilityHelp'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        plugins: [
+            AccessibilityHelp,
+            Alignment,
+            Autoformat,
+            AutoImage,
+            AutoLink,
+            Autosave,
+            BalloonToolbar,
+            BlockQuote,
+            BlockToolbar,
+            Bold,
+            CloudServices,
+            Code,
+            CodeBlock,
+            Essentials,
+            FindAndReplace,
+            FontBackgroundColor,
+            FontColor,
+            FontFamily,
+            FontSize,
+            FullPage,
+            GeneralHtmlSupport,
+            Heading,
+            Highlight,
+            HorizontalLine,
+            HtmlComment,
+            HtmlEmbed,
+            ImageBlock,
+            ImageCaption,
+            ImageInline,
+            ImageInsertViaUrl,
+            ImageResize,
+            ImageStyle,
+            ImageTextAlternative,
+            ImageToolbar,
+            ImageUpload,
+            Indent,
+            IndentBlock,
+            Italic,
+            Link,
+            LinkImage,
+            List,
+            ListProperties,
+            Markdown,
+            MediaEmbed,
+            Mention,
+            Paragraph,
+            PasteFromMarkdownExperimental,
+            PasteFromOffice,
+            RemoveFormat,
+            SelectAll,
+            SourceEditing,
+            SpecialCharacters,
+            SpecialCharactersArrows,
+            SpecialCharactersCurrency,
+            SpecialCharactersEssentials,
+            SpecialCharactersLatin,
+            SpecialCharactersMathematical,
+            SpecialCharactersText,
+            Strikethrough,
+            Subscript,
+            Table,
+            TableCaption,
+            TableCellProperties,
+            TableColumnResize,
+            TableProperties,
+            TableToolbar,
+            TextTransformation,
+            TodoList,
+            Underline,
+            Undo
+        ],
+        balloonToolbar: ['bold', 'italic', '|', 'link', '|', 'bulletedList', 'numberedList'],
+        blockToolbar: [
+            'fontSize',
+            'fontColor',
+            'fontBackgroundColor',
+            '|',
+            'bold',
+            'italic',
+            '|',
+            'link',
+            'insertTable',
+            '|',
+            'bulletedList',
+            'numberedList',
+            'indent',
+            'outdent'
+        ],
+        fontFamily: {
+            supportAllValues: true
+        },
+        fontSize: {
+            options: [10, 12, 14, 'default', 18, 20, 22],
+            supportAllValues: true
+        },
+        heading: {
+            options: [
+                {
+                    model: 'paragraph',
+                    title: 'Paragraph',
+                    class: 'ck-heading_paragraph'
+                },
+                {
+                    model: 'heading1',
+                    view: 'h1',
+                    title: 'Heading 1',
+                    class: 'ck-heading_heading1'
+                },
+                {
+                    model: 'heading2',
+                    view: 'h2',
+                    title: 'Heading 2',
+                    class: 'ck-heading_heading2'
+                },
+                {
+                    model: 'heading3',
+                    view: 'h3',
+                    title: 'Heading 3',
+                    class: 'ck-heading_heading3'
+                },
+                {
+                    model: 'heading4',
+                    view: 'h4',
+                    title: 'Heading 4',
+                    class: 'ck-heading_heading4'
+                },
+                {
+                    model: 'heading5',
+                    view: 'h5',
+                    title: 'Heading 5',
+                    class: 'ck-heading_heading5'
+                },
+                {
+                    model: 'heading6',
+                    view: 'h6',
+                    title: 'Heading 6',
+                    class: 'ck-heading_heading6'
+                }
+            ]
+        },
+        htmlSupport: {
+            allow: [
+                {
+                    name: /^.*$/,
+                    styles: true,
+                    attributes: true,
+                    classes: true
+                }
+            ]
+        },
+        image: {
+            toolbar: [
+                'toggleImageCaption',
+                'imageTextAlternative',
+                '|',
+                'imageStyle:inline',
+                'imageStyle:wrapText',
+                'imageStyle:breakText',
+                '|',
+                'resizeImage'
+            ]
+        },
+        initialData:
+            '<h2>Congratulations on setting up CKEditor 5! 🎉</h2>\n<p>\n    You\'ve successfully created a CKEditor 5 project. This powerful text editor will enhance your application, enabling rich text editing\n    capabilities that are customizable and easy to use.\n</p>\n<h3>What\'s next?</h3>\n<ol>\n    <li>\n        <strong>Integrate into your app</strong>: time to bring the editing into your application. Take the code you created and add to your\n        application.\n    </li>\n    <li>\n        <strong>Explore features:</strong> Experiment with different plugins and toolbar options to discover what works best for your needs.\n    </li>\n    <li>\n        <strong>Customize your editor:</strong> Tailor the editor\'s configuration to match your application\'s style and requirements. Or even\n        write your plugin!\n    </li>\n</ol>\n<p>\n    Keep experimenting, and don\'t hesitate to push the boundaries of what you can achieve with CKEditor 5. Your feedback is invaluable to us\n    as we strive to improve and evolve. Happy editing!\n</p>\n<h3>Helpful resources</h3>\n<ul>\n    <li>📝 <a href="https://orders.ckeditor.com/trial/premium-features">Trial sign up</a>,</li>\n    <li>📕 <a href="https://ckeditor.com/docs/ckeditor5/latest/installation/index.html">Documentation</a>,</li>\n    <li>⭐️ <a href="https://github.com/ckeditor/ckeditor5">GitHub</a> (star us if you can!),</li>\n    <li>🏠 <a href="https://ckeditor.com">CKEditor Homepage</a>,</li>\n    <li>🧑‍💻 <a href="https://ckeditor.com/ckeditor-5/demo/">CKEditor 5 Demos</a>,</li>\n</ul>\n<h3>Need help?</h3>\n<p>\n    See this text, but the editor is not starting up? Check the browser\'s console for clues and guidance. It may be related to an incorrect\n    license key if you use premium features or another feature-related requirement. If you cannot make it work, file a GitHub issue, and we\n    will help as soon as possible!\n</p>\n',
+        link: {
+            addTargetToExternalLinks: true,
+            defaultProtocol: 'https://',
+            decorators: {
+                toggleDownloadable: {
+                    mode: 'manual',
+                    label: 'Downloadable',
+                    attributes: {
+                        download: 'file'
+                    }
+                }
+            }
+        },
+        mention: {
+            feeds: [
+                {
+                    marker: '@',
+                    feed: ['@apple', '@bears', '@brownie', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream', '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o', '@liquorice', '@macaroon', '@mallow', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé', '@sugar', '@sweet', '@topping', '@wafer'],
+                    minimumCharacters: 1
+                }
+            ]
+        },
+        table: {
+            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableCellProperties', 'tableProperties', 'toggleTableCaption']
+        }
     };
 
-    const handleSubmit = async () => {
-        // Validation check
-        if (!formData.title || !formData.image || !formData.price || !formData.description) {
-            setError("All fields are required");
-            return;
-        }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-        setError(null); // Clear any previous error
+    const handleEditorChange = (event, editor) => {
+        const data = editor.getData();
+        setFormData({ ...formData, description: data });
+    };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
-            const res = await fetch("/api/listing", {
+            const response = await fetch("api/listing", {
                 method: "POST",
-                body: JSON.stringify(formData),
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
             });
 
-            const data = await res.json();
-            setResponse(data);
+            if (response.ok) {
+                const data = await response.json();
+                setResponse(data);
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message);
+            }
         } catch (error) {
-            setError("Error submitting data. Please try again.");
-            console.error("Error submitting data:", error);
+            setError(error.message);
         }
     };
 
     return (
-        <div className="p-2 bg-white rounded-lg">
-            {error && <div className="text-red-500 text-sm">{error}</div>}
-            <div className="space-y-6">
-                <div>
-                    <Input
-                        type="text"
-                        id="title"
-                        name="title"
-                        color="primary"
-                        value={formData.title}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-0 py-0 border-none shadow-none focus:outline-none focus:ring-0 sm:text-sm"
-                        placeholder="Enter title"
-                    />
-                </div>
-                <div>
-                    <Input
-                        type="text"
-                        id="image"
-                        name="image"
-                        color="primary"
-                        value={formData.image}
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-0 py-0 border-none shadow-none focus:outline-none focus:ring-0 sm:text-sm"
-                        placeholder="Enter Image Url"
-                    />
-                </div>
-                <div>
-                    <Input
-                        type="text"
-                        id="price"
-                        name="price"
-                        value={formData.price}
-                        color="primary"
-                        onChange={handleChange}
-                        className="mt-1 block w-full px-0 py-0 border-none shadow-none focus:outline-none focus:ring-0 sm:text-sm"
-                        placeholder="Enter price"
-                    />
-                </div>
-                <div>
-                    <JoditEditor
-                        value={formData.description}
-                        onChange={(newContent) => setFormData({ ...formData, description: newContent })}
-                        tabIndex={1} // tabIndex of textarea
-                        className="mt-1 block w-full h-48"
-                        placeholder="Enter description"
-                    />
-                </div>
-                <div className="!mt-16">
-                    <Button
-                        type="button"
-                        onClick={handleSubmit}
-                        color="primary"
-                        variant="shadow"
-                        className="">
-                        Submit
-                    </Button>
-                </div>
+        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+            <div>
+                <label htmlFor="title">Title</label>
+                <Input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Enter title"
+                />
             </div>
-            {response && <div className="mt-4 p-4 bg-green-100 rounded-lg">{JSON.stringify(response)}</div>}
-        </div>
+            <div>
+                <label htmlFor="image">Image URL</label>
+                <Input
+                    type="text"
+                    id="image"
+                    name="image"
+                    value={formData.image}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Enter image URL"
+                />
+            </div>
+            <div>
+                <label htmlFor="price">Price</label>
+                <Input
+                    type="text"
+                    id="price"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Enter price"
+                />
+            </div>
+            <div>
+                <label htmlFor="description">Description</label>
+                <CKEditor
+                    editor={ClassicEditor}
+                    config={editorConfig}
+                    data={formData.description}
+                    onChange={handleEditorChange}
+                />
+            </div>
+            <Button type="submit" color="primary">Submit</Button>
+            {response && <div className="text-green-500">Success: {response.message}</div>}
+            {error && <div className="text-red-500">Error: {error}</div>}
+        </form>
     );
 };
 
