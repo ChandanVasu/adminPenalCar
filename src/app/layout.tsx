@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
-import AdminMenu from "@/components/adminMenu";
+import Header from "@/components/template/header";
+import AdminMenu from "@/components/template/adminMenu";
 import { Providers } from "./providers";
 
 const inter = Poppins({ subsets: ["latin"], weight:['100', '300', '700'], variable:'--poppins-font' });
@@ -23,10 +23,10 @@ export default function RootLayout({
         <Providers>
           <Header />
           <div className="flex">
-            <div className="fixed w-64 p-4 bg-slate-50 h-full ">
+            <div className="fixed w-72 p-4 bg-slate-50 h-full ">
               <AdminMenu />
             </div>
-            <div className="ml-64  w-full  h-full bg-white p-4">
+            <div className="ml-72  w-full  h-full bg-white p-4">
               {children}
             </div>
           </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, editorConfig } from '@/components/block/ckeditorConfig';
+import { ClassicEditor, editorConfig } from '@/lib/ckeditorConfig';
 
 const PostList = () => {
     const [formData, setFormData] = useState({
