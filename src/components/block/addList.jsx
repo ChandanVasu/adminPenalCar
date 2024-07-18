@@ -24,29 +24,35 @@ const PostList = () => {
         const data = editor.getData();
         setFormData({ ...formData, description: data });
     };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null); // Clear previous error
         try {
-            const response = await fetch("api/listing", {
+            const response = await fetch("/api/listing", { // Added leading slash
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formData)
             });
-
-            if (response.ok) {
+    
+            if (!response.ok) {
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    const errorData = await response.json();
+                    setError(errorData.message);
+                } else {
+                    setError(`Error: ${response.status} - ${response.statusText}`);
+                }
+            } else {
                 const data = await response.json();
                 setResponse(data);
-            } else {
-                const errorData = await response.json();
-                setError(errorData.message);
             }
         } catch (error) {
             setError(error.message);
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
