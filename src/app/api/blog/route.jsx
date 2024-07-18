@@ -32,7 +32,7 @@ export async function GET(req) {
         await connectToDatabase(); // Connect to MongoDB
 
         const db = mongoose.connection;
-        const mainPostCollection = db.collection('CrasListing');
+        const mainPostCollection = db.collection('BlogPost');
 
         const posts = await mainPostCollection.find({}).toArray(); // Query all documents
 
@@ -52,7 +52,7 @@ export async function POST(req) {
 
         const db = mongoose.connection;
         
-        const mainPostCollection = db.collection('CrasListing');
+        const mainPostCollection = db.collection('BlogPost');
 
         const postData = await req.json(); // Assuming POST data is JSON
 
@@ -77,7 +77,7 @@ export async function DELETE(req) {
         await connectToDatabase(); // Connect to MongoDB
 
         const db = mongoose.connection;
-        const mainPostCollection = db.collection('CrasListing');
+        const mainPostCollection = db.collection('BlogPost');
 
         const { id } = await req.json(); // Assuming DELETE data contains an ID
 
@@ -108,7 +108,7 @@ export async function PUT(req) {
         await connectToDatabase(); // Connect to MongoDB
 
         const db = mongoose.connection;
-        const mainPostCollection = db.collection('CrasListing');
+        const mainPostCollection = db.collection('BlogPost');
 
         const { id, updateData } = await req.json(); // Assuming PUT data contains an ID and updateData
 

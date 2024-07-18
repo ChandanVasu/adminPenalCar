@@ -6,10 +6,13 @@ import { useState } from 'react';
 
 const AdminMenu = () => {
   const [isCarListingsOpen, setIsCarListingsOpen] = useState(false);
+  const [isBlogPostOpen, setIsBlogPostOpen] = useState(false);
 
   const handleMenuClick = (menu) => {
     if (menu === "carListings") {
       setIsCarListingsOpen(!isCarListingsOpen);
+    } else if (menu === "blogPost") {
+      setIsBlogPostOpen(!isBlogPostOpen);
     }
   };
 
@@ -48,6 +51,30 @@ const AdminMenu = () => {
         <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
           <FaUsers className='inline-block mr-2' />
           <Link href="/admin/users">Manage Users</Link>
+        </li>
+        <li className='menu-item flex flex-col mb-2'>
+          <div
+            className={`py-2 px-4 flex items-center rounded-lg cursor-pointer justify-between  bg-white text-black hover:bg-blue-100`}
+            onClick={() => handleMenuClick("blogPost")}
+          >
+            <div className='flex items-center'>
+              <FaCar className='inline-block mr-2' />
+              <Link href="/dashboard/listing">Blog Post</Link>
+            </div>
+            {isBlogPostOpen ? <IoIosArrowDown className='float-right' /> : <IoIosArrowForward className='float-right' />}
+          </div>
+          {isBlogPostOpen && (
+            <ul className="pl-6 mt-2 space-y-2">
+              <li className='px-3 py-2 bg-white rounded-lg hover:bg-blue-100 '>
+                <FaPlus className='inline-block mr-2' />
+                <Link href="/dashboard/listing/new">Add New Post</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Categories</Link>
+              </li>
+            </ul>
+          )}
         </li>
         <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
           <FaCog className='inline-block mr-2' />
