@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Image, Skeleton } from "@nextui-org/react";
 import { MdOutlineDelete } from "react-icons/md";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CarListing() {
   const [listing, setListing] = useState([]);
@@ -40,15 +41,16 @@ export default function CarListing() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id }) // Send the ID in the request body
+        body: JSON.stringify({ id })
       });
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
       setListing(listing.filter(item => item._id !== id));
+      toast.success("Item deleted successfully");
     } catch (error) {
       console.error("Error deleting item:", error);
-      setError("Failed to delete item");
+      toast.error("Failed to delete item");
     }
   };
 
@@ -92,21 +94,21 @@ export default function CarListing() {
               />
               <div className="flex justify-between">
                 <div className="relative">
-                <p className="text-black dark:text-white">Title: {item.title}</p>
-                <p className="text-black dark:text-white">Price: {item.price}</p>
-                <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold	">{index + 1}</p>
+                  <p className="text-black dark:text-white">Title: {item.title}</p>
+                  <p className="text-black dark:text-white">Price: {item.price}</p>
+                  <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">{index + 1}</p>
                 </div>
                 <i
-                onClick={() => deleteItem(item._id)}
-                className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black">
-                <MdOutlineDelete /></i>
+                  onClick={() => deleteItem(item._id)}
+                  className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black">
+                  <MdOutlineDelete />
+                </i>
               </div>
-
-
             </div>
           ))}
         </div>
       )}
+      <ToastContainer position="bottom-center" />
     </div>
   );
 }
