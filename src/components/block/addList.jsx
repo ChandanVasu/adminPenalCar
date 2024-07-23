@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
-export const animals = [
+export const demo = [
     { key: "cat", label: "Cat" },
     { key: "dog", label: "Dog" },
     { key: "elephant", label: "Elephant" },
@@ -22,6 +22,9 @@ export const animals = [
     { key: "otter", label: "Otter" },
     { key: "crocodile", label: "Crocodile" }
 ];
+
+// const [make, setMake] = useState([]);
+
 
 const PostList = () => {
     const [formData, setFormData] = useState({
@@ -64,6 +67,8 @@ const PostList = () => {
         setFormData({ ...formData, description: data });
     };
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -94,23 +99,6 @@ const PostList = () => {
 
     return (
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-            <div className="flex w-full max-w-xs flex-col gap-2">
-                <Select
-                    label="Favorite Animal"
-                    variant="bordered"
-                    placeholder="Select an animal"
-                    name="select"
-                    value={[formData.selectData]}
-                    className="max-w-xs"
-                    onChange={handleChange}>
-                    {animals.map((animal) => (
-                        <SelectItem key={animal.key}>
-                            {animal.label}
-                        </SelectItem>
-                    ))}
-                </Select>
-                <p className="text-small text-default-500">Selected: {formData.selectData}</p>
-            </div>
             <div className="flex justify-center items-center gap-3">
                 <Input
                     type="text"
@@ -162,18 +150,22 @@ const PostList = () => {
                     color="secondary"
                     labelPlacement="outside"
                 />
-                <Input
-                    type="text"
-                    id="make"
-                    name="make"
-                    value={formData.make}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter car make"
+                <Select
                     label="Make"
+                    variant="bordered"
+                    placeholder="Select Make"
+                    name="make"
                     color="secondary"
+                    selectionMode="single"
+                    value={formData.selectData}
                     labelPlacement="outside"
-                />
+                    onChange={handleChange}>
+                    {demo.map((make) => (
+                        <SelectItem key={make.key}>
+                            {make.label}
+                        </SelectItem>
+                    ))}
+                </Select>
                 <Input
                     type="text"
                     id="model"
@@ -391,7 +383,7 @@ const PostList = () => {
                     labelPlacement="outside"
                 />
                 <Input
-                    type="text"
+                    type="number"
                     id="vehicleSeatingCapacity"
                     name="vehicleSeatingCapacity"
                     value={formData.vehicleSeatingCapacity}
