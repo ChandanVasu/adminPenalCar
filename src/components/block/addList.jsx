@@ -1,10 +1,27 @@
+"use client"
 import { useState } from "react";
-import { Input, Textarea } from "@nextui-org/react";
-import { Button } from "@nextui-org/react";
+import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+
+export const animals = [
+    { key: "cat", label: "Cat" },
+    { key: "dog", label: "Dog" },
+    { key: "elephant", label: "Elephant" },
+    { key: "lion", label: "Lion" },
+    { key: "tiger", label: "Tiger" },
+    { key: "giraffe", label: "Giraffe" },
+    { key: "dolphin", label: "Dolphin" },
+    { key: "penguin", label: "Penguin" },
+    { key: "zebra", label: "Zebra" },
+    { key: "shark", label: "Shark" },
+    { key: "whale", label: "Whale" },
+    { key: "otter", label: "Otter" },
+    { key: "crocodile", label: "Crocodile" }
+];
 
 const PostList = () => {
     const [formData, setFormData] = useState({
@@ -32,8 +49,10 @@ const PostList = () => {
         vehicleInteriorColor: "",
         vehicleInteriorType: "",
         vehicleSeatingCapacity: "",
-        vehicleTransmission: ""
+        vehicleTransmission: "",
+        selectData: ""
     });
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -75,6 +94,24 @@ const PostList = () => {
 
     return (
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
+            <div className="flex w-full max-w-xs flex-col gap-2">
+                <Select
+                    label="Favorite Animal"
+                    variant="bordered"
+                    placeholder="Select an animal"
+                    name="select"
+                    value={[formData.selectData]}
+                    className="max-w-xs"
+                    onChange={handleChange}
+                >
+                    {animals.map((animal) => (
+                        <SelectItem key={animal.key}>
+                            {animal.label}
+                        </SelectItem>
+                    ))}
+                </Select>
+                <p className="text-small text-default-500">Selected: {formData.selectData}</p>
+            </div>
             <div className="flex justify-center items-center gap-3">
                 <Input
                     type="text"
