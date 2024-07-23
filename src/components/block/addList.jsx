@@ -102,8 +102,7 @@ const PostList = () => {
                     name="select"
                     value={[formData.selectData]}
                     className="max-w-xs"
-                    onChange={handleChange}
-                >
+                    onChange={handleChange}>
                     {animals.map((animal) => (
                         <SelectItem key={animal.key}>
                             {animal.label}
@@ -426,7 +425,7 @@ const PostList = () => {
                 />
             </div>
             <Button type="submit" color="primary">Submit</Button>
-            <ToastContainer position="bottom-center" />
+            <ToastContainer autoClose={1000} position="bottom-center" />
         </form>
     );
 };
