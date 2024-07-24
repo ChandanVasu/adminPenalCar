@@ -7,9 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
-
 const PostList = () => {
-    const getInitialFormData = () => ({
+    // Initialize formData directly
+    const [formData, setFormData] = useState({
         title: "",
         image: "",
         price: "",
@@ -27,23 +27,31 @@ const PostList = () => {
         color: "",
         driveWheelConfiguration: "",
         numberOfDoors: "",
-        url: "",
-        vehicleConfiguration: "",
         fuelType: "",
         vehicleEngine: "",
         vehicleInteriorColor: "",
         vehicleInteriorType: "",
         vehicleSeatingCapacity: "",
         vehicleTransmission: "",
-        selectData: "",
+        carFeature: "",
+        carSafetyFeature: "",
+        cylinders: ""
     });
 
-    const [formData, setFormData] = useState(getInitialFormData());
     const [makeData, setMakeData] = useState([]);
     const [modelData, setModelData] = useState([]);
     const [colorData, setColorData] = useState([]);
     const [typeData, setTypeData] = useState([]);
     const [isModelDisabled, setIsModelDisabled] = useState(true);
+
+    // Local select data
+    const [availabilityOptions] = useState(["InStock", "OutOfStock"]);
+    const [mileageUnitOptions] = useState(["KMT", "SMI"]);
+    const [priceCurrencyOptions] = useState(["INR", "USD", "EUR", "GBP"]);
+    const [itemConditionOptions] = useState(["New", "Used"]);
+    const [fuelTypeOptions] = useState(["Petrol", "Diesel", "Electric", "Hybrid"]);
+    const [transmissionOptions] = useState(["Automatic", "Manual"]);
+    const [driveTypeOptions] = useState(["FWD", "RWD", "AWD", "4WD"]);
 
     useEffect(() => {
         fetchMakeData();
@@ -77,7 +85,7 @@ const PostList = () => {
             const data = await response.json();
             setTypeData(data);
         } catch (error) {
-            console.error("Error fetching make data:", error);
+            console.error("Error fetching type data:", error);
         }
     };
 
@@ -87,7 +95,7 @@ const PostList = () => {
             const data = await response.json();
             setColorData(data);
         } catch (error) {
-            console.error("Error fetching make data:", error);
+            console.error("Error fetching color data:", error);
         }
     };
 
@@ -162,7 +170,22 @@ const PostList = () => {
                 {renderInputField("price", "price", "Enter price", "Price", "number")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("priceCurrency", "priceCurrency", "Enter price currency", "Price Currency")}
+                <Select
+                    label="Price Currency"
+                    variant="bordered"
+                    placeholder="Select Currency"
+                    name="priceCurrency"
+                    color="secondary"
+                    value={formData.priceCurrency}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {priceCurrencyOptions.map((currency) => (
+                        <SelectItem key={currency} value={currency}>
+                            {currency}
+                        </SelectItem>
+                    ))}
+                </Select>
                 <Select
                     label="Make"
                     variant="bordered"
@@ -200,15 +223,59 @@ const PostList = () => {
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("year", "year", "Enter car year", "Year", "number")}
                 {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
-                {renderInputField("mileageUnit", "mileageUnit", "Enter mileage unit", "Mileage Unit (SMI/KMT)")}
+                <Select
+                    label="Mileage Unit"
+                    variant="bordered"
+                    placeholder="Select Mileage Unit"
+                    name="mileageUnit"
+                    color="secondary"
+                    value={formData.mileageUnit}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {mileageUnitOptions.map((unit) => (
+                        <SelectItem key={unit} value={unit}>
+                            {unit}
+                        </SelectItem>
+                    ))}
+                </Select>
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("itemCondition", "itemCondition", "Enter item condition", "Item Condition (New/Used)")}
-                {renderInputField("availability", "availability", "Enter availability", "Availability (InStock/OutOfStock)")}
+                <Select
+                    label="Item Condition"
+                    variant="bordered"
+                    placeholder="Select Item Condition"
+                    name="itemCondition"
+                    color="secondary"
+                    value={formData.itemCondition}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {itemConditionOptions.map((condition) => (
+                        <SelectItem key={condition} value={condition}>
+                            {condition}
+                        </SelectItem>
+                    ))}
+                </Select>
+                <Select
+                    label="Availability"
+                    variant="bordered"
+                    placeholder="Select Availability"
+                    name="availability"
+                    color="secondary"
+                    value={formData.availability}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {availabilityOptions.map((availability) => (
+                        <SelectItem key={availability} value={availability}>
+                            {availability}
+                        </SelectItem>
+                    ))}
+                </Select>
                 {renderInputField("vin", "vin", "Enter VIN", "VIN")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {/* {renderInputField("bodyType", "bodyType", "Enter body type", "Body Type")} */}
                 <Select
                     label="Body Type"
                     variant="bordered"
@@ -220,7 +287,7 @@ const PostList = () => {
                     onChange={handleInputChange}
                 >
                     {typeData.map((type) => (
-                        <SelectItem key={type.type} >
+                        <SelectItem key={type.type} value={type.type}>
                             {type.type}
                         </SelectItem>
                     ))}
@@ -228,51 +295,83 @@ const PostList = () => {
                 <Select
                     label="Exterior Color"
                     variant="bordered"
-                    placeholder="Select exterior color"
+                    placeholder="Select Exterior Color"
                     name="color"
                     color="secondary"
                     value={formData.color}
                     labelPlacement="outside"
-                    onChange={handleInputChange}>
+                    onChange={handleInputChange}
+                >
                     {colorData.map((color) => (
-                        <SelectItem key={color.color}>
+                        <SelectItem key={color.color} value={color.color}>
                             {color.color}
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("driveWheelConfiguration", "driveWheelConfiguration", "Enter drive wheel configuration", "Drive Wheel Configuration")}
+                <Select
+                    label="Drive Type"
+                    variant="bordered"
+                    placeholder="Select Drive Type"
+                    name="driveWheelConfiguration"
+                    color="secondary"
+                    value={formData.driveWheelConfiguration}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {driveTypeOptions.map((type) => (
+                        <SelectItem key={type} value={type}>
+                            {type}
+                        </SelectItem>
+                    ))}
+                </Select>
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
-                {renderInputField("url", "url", "Enter vehicle details page URL", "Vehicle Details Page URL")}
-                {renderInputField("vehicleConfiguration", "vehicleConfiguration", "Enter vehicle configuration", "Vehicle Configuration")}
+                <Select
+                    label="Fuel Type"
+                    variant="bordered"
+                    placeholder="Select Fuel Type"
+                    name="fuelType"
+                    color="secondary"
+                    value={formData.fuelType}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {fuelTypeOptions.map((fuelType) => (
+                        <SelectItem key={fuelType} value={fuelType}>
+                            {fuelType}
+                        </SelectItem>
+                    ))}
+                </Select>
+                {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine size", "Engine size")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("fuelType", "fuelType", "Enter fuel type", "Fuel Type")}
-                {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine specification", "Engine Specification")}
                 <Select
                     label="Interior Color"
                     variant="bordered"
-                    placeholder="Select interior color"
+                    placeholder="Select Interior Color"
                     name="vehicleInteriorColor"
                     color="secondary"
-                    value={formData.color}
+                    value={formData.vehicleInteriorColor}
                     labelPlacement="outside"
-                    onChange={handleInputChange}>
+                    onChange={handleInputChange}
+                >
                     {colorData.map((color) => (
-                        <SelectItem key={color.color}>
+                        <SelectItem key={color.color} value={color.color}>
                             {color.color}
                         </SelectItem>
                     ))}
                 </Select>
+                {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
+                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("vehicleInteriorType", "vehicleInteriorType", "Enter interior type", "Interior Type")}
-                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
-                {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
+                {renderInputField("carFeature", "carFeature", "Enter car features", "Car Features")}
+                {renderInputField("carSafetyFeature", "carSafetyFeature", "Enter car safety features", "Car Safety Features")}
+                {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
             </div>
             <div>
-                <label htmlFor="description">Description</label>
+                <p className="pb-3" htmlFor="description">Description</p>
                 <CKEditor
                     editor={ClassicEditor}
                     config={editorConfig}
