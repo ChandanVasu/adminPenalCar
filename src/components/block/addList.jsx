@@ -41,10 +41,12 @@ const PostList = () => {
     const [formData, setFormData] = useState(getInitialFormData());
     const [makeData, setMakeData] = useState([]);
     const [modelData, setModelData] = useState([]);
+    const [colorData, setColorData] = useState([]);
     const [isModelDisabled, setIsModelDisabled] = useState(true);
 
     useEffect(() => {
         fetchMakeData();
+        fetchColorData();
     }, []);
 
     useEffect(() => {
@@ -62,6 +64,16 @@ const PostList = () => {
             const response = await fetch("/api/listing/make");
             const data = await response.json();
             setMakeData(data);
+        } catch (error) {
+            console.error("Error fetching make data:", error);
+        }
+    };
+
+    const fetchColorData = async () => {
+        try {
+            const response = await fetch("/api/listing/color");
+            const data = await response.json();
+            setColorData(data);
         } catch (error) {
             console.error("Error fetching make data:", error);
         }
@@ -115,7 +127,7 @@ const PostList = () => {
         }
     };
 
-    const renderInputField = (id, name, placeholder, label, type="text") => (
+    const renderInputField = (id, name, placeholder, label, type = "text") => (
         <Input
             type={type}
             id={id}
@@ -147,7 +159,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.make}
                     labelPlacement="outside"
-                    onChange={(e) => handleInputChange({ target: { name: 'make', value: e.target.value }})}
+                    onChange={(e) => handleInputChange({ target: { name: 'make', value: e.target.value } })}
                 >
                     {makeData.map((make) => (
                         <SelectItem key={make.make} value={make.make}>
@@ -175,7 +187,7 @@ const PostList = () => {
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("year", "year", "Enter car year", "Year", "number")}
-                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage" , "number")}
+                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
                 {renderInputField("mileageUnit", "mileageUnit", "Enter mileage unit", "Mileage Unit (SMI/KMT)")}
             </div>
             <div className="flex justify-center items-center gap-3">
@@ -185,22 +197,50 @@ const PostList = () => {
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("bodyType", "bodyType", "Enter body type", "Body Type")}
-                {renderInputField("color", "color", "Enter exterior color", "Exterior Color")}
+                <Select
+                    label="Exterior Color"
+                    variant="bordered"
+                    placeholder="Select exterior color"
+                    name="color"
+                    color="secondary"
+                    value={formData.color}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}>
+                    {colorData.map((color) => (
+                        <SelectItem key={color.color}>
+                            {color.color}
+                        </SelectItem>
+                    ))}
+                </Select>
                 {renderInputField("driveWheelConfiguration", "driveWheelConfiguration", "Enter drive wheel configuration", "Drive Wheel Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors" , "number")}
+                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
                 {renderInputField("url", "url", "Enter vehicle details page URL", "Vehicle Details Page URL")}
                 {renderInputField("vehicleConfiguration", "vehicleConfiguration", "Enter vehicle configuration", "Vehicle Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("fuelType", "fuelType", "Enter fuel type", "Fuel Type")}
                 {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine specification", "Engine Specification")}
-                {renderInputField("vehicleInteriorColor", "vehicleInteriorColor", "Enter interior color", "Interior Color")}
+                <Select
+                    label="Interior Color"
+                    variant="bordered"
+                    placeholder="Select interior color"
+                    name="vehicleInteriorColor"
+                    color="secondary"
+                    value={formData.color}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}>
+                    {colorData.map((color) => (
+                        <SelectItem key={color.color}>
+                            {color.color}
+                        </SelectItem>
+                    ))}
+                </Select>
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("vehicleInteriorType", "vehicleInteriorType", "Enter interior type", "Interior Type")}
-                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity" , "number")}
+                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
                 {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
             </div>
             <div>
