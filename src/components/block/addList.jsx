@@ -7,21 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
-export const demo = [
-    { key: "cat", label: "Cat" },
-    { key: "dog", label: "Dog" },
-    { key: "elephant", label: "Elephant" },
-    { key: "lion", label: "Lion" },
-    { key: "tiger", label: "Tiger" },
-    { key: "giraffe", label: "Giraffe" },
-    { key: "dolphin", label: "Dolphin" },
-    { key: "penguin", label: "Penguin" },
-    { key: "zebra", label: "Zebra" },
-    { key: "shark", label: "Shark" },
-    { key: "whale", label: "Whale" },
-    { key: "otter", label: "Otter" },
-    { key: "crocodile", label: "Crocodile" }
-];
 
 const PostList = () => {
     const getInitialFormData = () => ({
@@ -50,15 +35,27 @@ const PostList = () => {
         vehicleInteriorType: "",
         vehicleSeatingCapacity: "",
         vehicleTransmission: "",
-        selectData: ""
+        selectData: "",
     });
 
     const [formData, setFormData] = useState(getInitialFormData());
     const [makeData, setMakeData] = useState([]);
+    const [modelData, setModelData] = useState([]);
+    const [isModelDisabled, setIsModelDisabled] = useState(true);
 
     useEffect(() => {
         fetchMakeData();
     }, []);
+
+    useEffect(() => {
+        if (formData.make) {
+            fetchModelData(formData.make);
+            setIsModelDisabled(false);
+        } else {
+            setModelData([]);
+            setIsModelDisabled(true);
+        }
+    }, [formData.make]);
 
     const fetchMakeData = async () => {
         try {
@@ -70,6 +67,16 @@ const PostList = () => {
         }
     };
 
+    const fetchModelData = async (make) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/listing/model?make=${make}`);
+            const data = await response.json();
+            setModelData(data);
+        } catch (error) {
+            console.error("Error fetching model data:", error);
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -78,10 +85,6 @@ const PostList = () => {
     const handleEditorChange = (event, editor) => {
         const data = editor.getData();
         setFormData((prevData) => ({ ...prevData, description: data }));
-    };
-
-    const handleSelectChange = (key) => {
-        setFormData((prevData) => ({ ...prevData, make: key }));
     };
 
     const handleSubmit = async (e) => {
@@ -112,7 +115,7 @@ const PostList = () => {
         }
     };
 
-    const renderInputField = (id, name, placeholder, label, type = "text") => (
+    const renderInputField = (id, name, placeholder, label, type="text") => (
         <Input
             type={type}
             id={id}
@@ -142,21 +145,37 @@ const PostList = () => {
                     placeholder="Select Make"
                     name="make"
                     color="secondary"
-                    selectionMode="single"
-                    selectedKey={formData.make}
-                    onSelectionChange={handleSelectChange}
-                    labelPlacement="outside">
+                    value={formData.make}
+                    labelPlacement="outside"
+                    onChange={(e) => handleInputChange({ target: { name: 'make', value: e.target.value }})}
+                >
                     {makeData.map((make) => (
                         <SelectItem key={make.make} value={make.make}>
                             {make.make}
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("model", "model", "Enter car model", "Model")}
+                <Select
+                    label="Model"
+                    variant="bordered"
+                    placeholder="Select Model"
+                    name="model"
+                    color="secondary"
+                    value={formData.model}
+                    isDisabled={isModelDisabled}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {modelData.map((model) => (
+                        <SelectItem key={model.model} value={model.model}>
+                            {model.model}
+                        </SelectItem>
+                    ))}
+                </Select>
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("year", "year", "Enter car year", "Year", "number")}
-                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
+                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage" , "number")}
                 {renderInputField("mileageUnit", "mileageUnit", "Enter mileage unit", "Mileage Unit (SMI/KMT)")}
             </div>
             <div className="flex justify-center items-center gap-3">
@@ -170,7 +189,7 @@ const PostList = () => {
                 {renderInputField("driveWheelConfiguration", "driveWheelConfiguration", "Enter drive wheel configuration", "Drive Wheel Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
+                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors" , "number")}
                 {renderInputField("url", "url", "Enter vehicle details page URL", "Vehicle Details Page URL")}
                 {renderInputField("vehicleConfiguration", "vehicleConfiguration", "Enter vehicle configuration", "Vehicle Configuration")}
             </div>
@@ -181,7 +200,7 @@ const PostList = () => {
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("vehicleInteriorType", "vehicleInteriorType", "Enter interior type", "Interior Type")}
-                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
+                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity" , "number")}
                 {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
             </div>
             <div>
