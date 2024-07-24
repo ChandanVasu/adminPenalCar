@@ -59,7 +59,7 @@ const PostList = () => {
 
     const fetchMakeData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/listing/make");
+            const response = await fetch("/api/listing/make");
             const data = await response.json();
             setMakeData(data);
         } catch (error) {
@@ -69,7 +69,7 @@ const PostList = () => {
 
     const fetchModelData = async (make) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/listing/model?make=${make}`);
+            const response = await fetch(`/api/listing/model?make=${make}`);
             const data = await response.json();
             setModelData(data);
         } catch (error) {

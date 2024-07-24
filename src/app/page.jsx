@@ -7,7 +7,7 @@ export default function App() {
 
   const fetchMakeData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/listing/make");
+      const response = await fetch("/api/listing/make");
       const data = await response.json();
       setMakeData(data);
     } catch (error) {
