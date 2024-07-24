@@ -42,11 +42,13 @@ const PostList = () => {
     const [makeData, setMakeData] = useState([]);
     const [modelData, setModelData] = useState([]);
     const [colorData, setColorData] = useState([]);
+    const [typeData, setTypeData] = useState([]);
     const [isModelDisabled, setIsModelDisabled] = useState(true);
 
     useEffect(() => {
         fetchMakeData();
         fetchColorData();
+        fetchTypeData();
     }, []);
 
     useEffect(() => {
@@ -64,6 +66,16 @@ const PostList = () => {
             const response = await fetch("/api/listing/make");
             const data = await response.json();
             setMakeData(data);
+        } catch (error) {
+            console.error("Error fetching make data:", error);
+        }
+    };
+
+    const fetchTypeData = async () => {
+        try {
+            const response = await fetch("/api/listing/type");
+            const data = await response.json();
+            setTypeData(data);
         } catch (error) {
             console.error("Error fetching make data:", error);
         }
@@ -196,7 +208,23 @@ const PostList = () => {
                 {renderInputField("vin", "vin", "Enter VIN", "VIN")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("bodyType", "bodyType", "Enter body type", "Body Type")}
+                {/* {renderInputField("bodyType", "bodyType", "Enter body type", "Body Type")} */}
+                <Select
+                    label="Body Type"
+                    variant="bordered"
+                    placeholder="Select Body Type"
+                    name="bodyType"
+                    color="secondary"
+                    value={formData.bodyType}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}
+                >
+                    {typeData.map((type) => (
+                        <SelectItem key={type.type} >
+                            {type.type}
+                        </SelectItem>
+                    ))}
+                </Select>
                 <Select
                     label="Exterior Color"
                     variant="bordered"
