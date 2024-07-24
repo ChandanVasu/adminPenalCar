@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header />
           <div className="flex">
-            <div className="fixed w-72 p-4 bg-slate-50 h-full">
+            <div className="fixed w-72 p-4 bg-slate-50 shadow h-full">
               <AdminMenu />
             </div>
             <div className="ml-72 w-full h-full bg-white p-4">

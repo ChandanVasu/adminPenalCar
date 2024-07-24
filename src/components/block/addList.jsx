@@ -1,5 +1,5 @@
-"use client"
-import { useState } from "react";
+"use client";
+import { useState, useEffect } from "react";
 import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
@@ -23,11 +23,8 @@ export const demo = [
     { key: "crocodile", label: "Crocodile" }
 ];
 
-// const [make, setMake] = useState([]);
-
-
 const PostList = () => {
-    const [formData, setFormData] = useState({
+    const getInitialFormData = () => ({
         title: "",
         image: "",
         price: "",
@@ -56,18 +53,32 @@ const PostList = () => {
         selectData: ""
     });
 
+    const [formData, setFormData] = useState(getInitialFormData());
+    const [makeData, setMakeData] = useState([]);
 
-    const handleChange = (e) => {
+    useEffect(() => {
+        fetchMakeData();
+    }, []);
+
+    const fetchMakeData = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/api/listing/make");
+            const data = await response.json();
+            setMakeData(data);
+        } catch (error) {
+            console.error("Error fetching make data:", error);
+        }
+    };
+
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     const handleEditorChange = (event, editor) => {
         const data = editor.getData();
-        setFormData({ ...formData, description: data });
+        setFormData((prevData) => ({ ...prevData, description: data }));
     };
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -80,8 +91,8 @@ const PostList = () => {
                 body: JSON.stringify(formData)
             });
 
+            const contentType = response.headers.get("content-type");
             if (!response.ok) {
-                const contentType = response.headers.get("content-type");
                 if (contentType && contentType.includes("application/json")) {
                     const errorData = await response.json();
                     toast.error(errorData.message);
@@ -97,315 +108,77 @@ const PostList = () => {
         }
     };
 
+    const renderInputField = (id, name, placeholder, label) => (
+        <Input
+            type="text"
+            id={id}
+            name={name}
+            value={formData[name]}
+            onChange={handleInputChange}
+            fullWidth
+            placeholder={placeholder}
+            label={label}
+            color="secondary"
+            labelPlacement="outside"
+        />
+    );
+
     return (
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="title"
-                    name="title"
-                    color="secondary"
-                    value={formData.title}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter title"
-                    label="Title"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="image"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter image URL"
-                    label="Image URL"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="price"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter price"
-                    label="Price"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("title", "title", "Enter title", "Title")}
+                {renderInputField("image", "image", "Enter image URL", "Image URL")}
+                {renderInputField("price", "price", "Enter price", "Price")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="priceCurrency"
-                    name="priceCurrency"
-                    value={formData.priceCurrency}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter price currency"
-                    label="Price Currency"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("priceCurrency", "priceCurrency", "Enter price currency", "Price Currency")}
                 <Select
                     label="Make"
                     variant="bordered"
                     placeholder="Select Make"
                     name="make"
                     color="secondary"
-                    selectionMode="single"
+                    selectionMode="multiple"
                     value={formData.selectData}
                     labelPlacement="outside"
-                    onChange={handleChange}>
-                    {demo.map((make) => (
-                        <SelectItem key={make.key}>
-                            {make.label}
+                    onChange={handleInputChange}>
+                    {makeData.map((make) => (
+                        <SelectItem key={make.make}>
+                            {make.make}
                         </SelectItem>
                     ))}
                 </Select>
-                <Input
-                    type="text"
-                    id="model"
-                    name="model"
-                    value={formData.model}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter car model"
-                    label="Model"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("model", "model", "Enter car model", "Model")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="year"
-                    name="year"
-                    value={formData.year}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter car year"
-                    label="Year"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="mileage"
-                    name="mileage"
-                    value={formData.mileage}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter car mileage"
-                    label="Mileage"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="mileageUnit"
-                    name="mileageUnit"
-                    value={formData.mileageUnit}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter mileage unit"
-                    label="Mileage Unit (SMI/KMT)"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("year", "year", "Enter car year", "Year")}
+                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage")}
+                {renderInputField("mileageUnit", "mileageUnit", "Enter mileage unit", "Mileage Unit (SMI/KMT)")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="itemCondition"
-                    name="itemCondition"
-                    value={formData.itemCondition}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter item condition"
-                    label="Item Condition (New/Used)"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="availability"
-                    name="availability"
-                    value={formData.availability}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter availability"
-                    label="Availability (InStock/OutOfStock)"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="vin"
-                    name="vin"
-                    value={formData.vin}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter VIN"
-                    label="VIN"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("itemCondition", "itemCondition", "Enter item condition", "Item Condition (New/Used)")}
+                {renderInputField("availability", "availability", "Enter availability", "Availability (InStock/OutOfStock)")}
+                {renderInputField("vin", "vin", "Enter VIN", "VIN")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="bodyType"
-                    name="bodyType"
-                    value={formData.bodyType}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter body type"
-                    label="Body Type"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="color"
-                    name="color"
-                    value={formData.color}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter exterior color"
-                    label="Exterior Color"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="driveWheelConfiguration"
-                    name="driveWheelConfiguration"
-                    value={formData.driveWheelConfiguration}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter drive wheel configuration"
-                    label="Drive Wheel Configuration"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("bodyType", "bodyType", "Enter body type", "Body Type")}
+                {renderInputField("color", "color", "Enter exterior color", "Exterior Color")}
+                {renderInputField("driveWheelConfiguration", "driveWheelConfiguration", "Enter drive wheel configuration", "Drive Wheel Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="numberOfDoors"
-                    name="numberOfDoors"
-                    value={formData.numberOfDoors}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter number of doors"
-                    label="Number of Doors"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="url"
-                    name="url"
-                    value={formData.url}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter vehicle details page URL"
-                    label="Vehicle Details Page URL"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="vehicleConfiguration"
-                    name="vehicleConfiguration"
-                    value={formData.vehicleConfiguration}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter vehicle configuration"
-                    label="Vehicle Configuration"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors")}
+                {renderInputField("url", "url", "Enter vehicle details page URL", "Vehicle Details Page URL")}
+                {renderInputField("vehicleConfiguration", "vehicleConfiguration", "Enter vehicle configuration", "Vehicle Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="fuelType"
-                    name="fuelType"
-                    value={formData.fuelType}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter fuel type"
-                    label="Fuel Type"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="vehicleEngine"
-                    name="vehicleEngine"
-                    value={formData.vehicleEngine}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter engine specification"
-                    label="Engine Specification"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="vehicleInteriorColor"
-                    name="vehicleInteriorColor"
-                    value={formData.vehicleInteriorColor}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter interior color"
-                    label="Interior Color"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("fuelType", "fuelType", "Enter fuel type", "Fuel Type")}
+                {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine specification", "Engine Specification")}
+                {renderInputField("vehicleInteriorColor", "vehicleInteriorColor", "Enter interior color", "Interior Color")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                <Input
-                    type="text"
-                    id="vehicleInteriorType"
-                    name="vehicleInteriorType"
-                    value={formData.vehicleInteriorType}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter interior type"
-                    label="Interior Type"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="number"
-                    id="vehicleSeatingCapacity"
-                    name="vehicleSeatingCapacity"
-                    value={formData.vehicleSeatingCapacity}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter seating capacity"
-                    label="Seating Capacity"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
-                <Input
-                    type="text"
-                    id="vehicleTransmission"
-                    name="vehicleTransmission"
-                    value={formData.vehicleTransmission}
-                    onChange={handleChange}
-                    fullWidth
-                    placeholder="Enter transmission specification"
-                    label="Transmission Specification"
-                    color="secondary"
-                    labelPlacement="outside"
-                />
+                {renderInputField("vehicleInteriorType", "vehicleInteriorType", "Enter interior type", "Interior Type")}
+                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity")}
+                {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
             </div>
             <div>
                 <label htmlFor="description">Description</label>
