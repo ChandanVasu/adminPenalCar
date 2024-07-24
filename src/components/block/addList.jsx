@@ -80,6 +80,10 @@ const PostList = () => {
         setFormData((prevData) => ({ ...prevData, description: data }));
     };
 
+    const handleSelectChange = (key) => {
+        setFormData((prevData) => ({ ...prevData, make: key }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -108,9 +112,9 @@ const PostList = () => {
         }
     };
 
-    const renderInputField = (id, name, placeholder, label) => (
+    const renderInputField = (id, name, placeholder, label, type = "text") => (
         <Input
-            type="text"
+            type={type}
             id={id}
             name={name}
             value={formData[name]}
@@ -128,7 +132,7 @@ const PostList = () => {
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("title", "title", "Enter title", "Title")}
                 {renderInputField("image", "image", "Enter image URL", "Image URL")}
-                {renderInputField("price", "price", "Enter price", "Price")}
+                {renderInputField("price", "price", "Enter price", "Price", "number")}
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("priceCurrency", "priceCurrency", "Enter price currency", "Price Currency")}
@@ -138,12 +142,12 @@ const PostList = () => {
                     placeholder="Select Make"
                     name="make"
                     color="secondary"
-                    selectionMode="multiple"
-                    value={formData.selectData}
-                    labelPlacement="outside"
-                    onChange={handleInputChange}>
+                    selectionMode="single"
+                    selectedKey={formData.make}
+                    onSelectionChange={handleSelectChange}
+                    labelPlacement="outside">
                     {makeData.map((make) => (
-                        <SelectItem key={make.make}>
+                        <SelectItem key={make.make} value={make.make}>
                             {make.make}
                         </SelectItem>
                     ))}
@@ -151,8 +155,8 @@ const PostList = () => {
                 {renderInputField("model", "model", "Enter car model", "Model")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("year", "year", "Enter car year", "Year")}
-                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage")}
+                {renderInputField("year", "year", "Enter car year", "Year", "number")}
+                {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
                 {renderInputField("mileageUnit", "mileageUnit", "Enter mileage unit", "Mileage Unit (SMI/KMT)")}
             </div>
             <div className="flex justify-center items-center gap-3">
@@ -166,7 +170,7 @@ const PostList = () => {
                 {renderInputField("driveWheelConfiguration", "driveWheelConfiguration", "Enter drive wheel configuration", "Drive Wheel Configuration")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors")}
+                {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
                 {renderInputField("url", "url", "Enter vehicle details page URL", "Vehicle Details Page URL")}
                 {renderInputField("vehicleConfiguration", "vehicleConfiguration", "Enter vehicle configuration", "Vehicle Configuration")}
             </div>
@@ -177,7 +181,7 @@ const PostList = () => {
             </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("vehicleInteriorType", "vehicleInteriorType", "Enter interior type", "Interior Type")}
-                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity")}
+                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
                 {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
             </div>
             <div>
