@@ -42,21 +42,24 @@ const PostList = () => {
     const [modelData, setModelData] = useState([]);
     const [colorData, setColorData] = useState([]);
     const [typeData, setTypeData] = useState([]);
+    const [featureData, setFeatureData] = useState([]);
+    const [safetyFeatureData, setSafetyFeatureData] = useState([]);
     const [isModelDisabled, setIsModelDisabled] = useState(true);
 
-    // Local select data
     const [availabilityOptions] = useState(["InStock", "OutOfStock"]);
     const [mileageUnitOptions] = useState(["KMT", "SMI"]);
     const [priceCurrencyOptions] = useState(["INR", "USD", "EUR", "GBP"]);
     const [itemConditionOptions] = useState(["New", "Used"]);
     const [fuelTypeOptions] = useState(["Petrol", "Diesel", "Electric", "Hybrid"]);
-    const [transmissionOptions] = useState(["Automatic", "Manual"]);
-    const [driveTypeOptions] = useState(["FWD", "RWD", "AWD", "4WD"]);
+    const [transmissionOptions] = useState(["Automatic", "Manual", "Semi-Automatic"]);
+    const [driveTypeOptions] = useState(["Front Wheel Drive", "Rear Wheel Drive", "All Wheel Drive", "Four Wheel Drive"]);
 
     useEffect(() => {
         fetchMakeData();
         fetchColorData();
         fetchTypeData();
+        fetchFeatureData();
+        fetchSafetyFeatureData();
     }, []);
 
     useEffect(() => {
@@ -109,6 +112,26 @@ const PostList = () => {
         }
     };
 
+    const fetchFeatureData = async () => {
+        try {
+            const response = await fetch("/api/listing/features");
+            const data = await response.json();
+            setFeatureData(data);
+        } catch (error) {
+            console.error("Error fetching feature data:", error);
+        }
+    };
+
+    const fetchSafetyFeatureData = async () => {
+        try {
+            const response = await fetch("/api/listing/safety-features");
+            const data = await response.json();
+            setSafetyFeatureData(data);
+        } catch (error) {
+            console.error("Error fetching safety feature data:", error);
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -157,7 +180,7 @@ const PostList = () => {
             fullWidth
             placeholder={placeholder}
             label={label}
-            color="secondary"
+            color="default"
             labelPlacement="outside"
         />
     );
@@ -178,8 +201,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.priceCurrency}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {priceCurrencyOptions.map((currency) => (
                         <SelectItem key={currency} value={currency}>
                             {currency}
@@ -194,8 +216,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.make}
                     labelPlacement="outside"
-                    onChange={(e) => handleInputChange({ target: { name: 'make', value: e.target.value } })}
-                >
+                    onChange={(e) => handleInputChange({ target: { name: 'make', value: e.target.value } })}>
                     {makeData.map((make) => (
                         <SelectItem key={make.make} value={make.make}>
                             {make.make}
@@ -211,8 +232,7 @@ const PostList = () => {
                     value={formData.model}
                     isDisabled={isModelDisabled}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {modelData.map((model) => (
                         <SelectItem key={model.model} value={model.model}>
                             {model.model}
@@ -231,8 +251,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.mileageUnit}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {mileageUnitOptions.map((unit) => (
                         <SelectItem key={unit} value={unit}>
                             {unit}
@@ -249,8 +268,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.itemCondition}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {itemConditionOptions.map((condition) => (
                         <SelectItem key={condition} value={condition}>
                             {condition}
@@ -265,8 +283,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.availability}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {availabilityOptions.map((availability) => (
                         <SelectItem key={availability} value={availability}>
                             {availability}
@@ -284,8 +301,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.bodyType}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {typeData.map((type) => (
                         <SelectItem key={type.type} value={type.type}>
                             {type.type}
@@ -300,8 +316,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.color}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {colorData.map((color) => (
                         <SelectItem key={color.color} value={color.color}>
                             {color.color}
@@ -316,8 +331,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.driveWheelConfiguration}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {driveTypeOptions.map((type) => (
                         <SelectItem key={type} value={type}>
                             {type}
@@ -335,8 +349,7 @@ const PostList = () => {
                     color="secondary"
                     value={formData.fuelType}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {fuelTypeOptions.map((fuelType) => (
                         <SelectItem key={fuelType} value={fuelType}>
                             {fuelType}
@@ -354,21 +367,68 @@ const PostList = () => {
                     color="secondary"
                     value={formData.vehicleInteriorColor}
                     labelPlacement="outside"
-                    onChange={handleInputChange}
-                >
+                    onChange={handleInputChange}>
                     {colorData.map((color) => (
                         <SelectItem key={color.color} value={color.color}>
                             {color.color}
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("vehicleTransmission", "vehicleTransmission", "Enter transmission specification", "Transmission Specification")}
+                <Select
+                    label="Transmission"
+                    variant="bordered"
+                    placeholder="Select transmission"
+                    name="fuelType"
+                    color="secondary"
+                    value={formData.vehicleTransmission}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}>
+                    {transmissionOptions.map((transmissionOptions) => (
+                        <SelectItem key={transmissionOptions} value={transmissionOptions}>
+                            {transmissionOptions}
+                        </SelectItem>
+                    ))}
+                </Select>
                 {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
             </div>
             <div className="flex justify-center items-center gap-3">
-                {renderInputField("carFeature", "carFeature", "Enter car features", "Car Features")}
-                {renderInputField("carSafetyFeature", "carSafetyFeature", "Enter car safety features", "Car Safety Features")}
+                <Select
+                className="w-1/3"
+                    label="Car Features"
+                    variant="bordered"
+                    placeholder="Select car features"
+                    name="vehicleInteriorColor"
+                    color="secondary"
+                    selectionMode="multiple"
+                    value={formData.carFeature}
+                    labelPlacement="outside"
+                    onChange={handleInputChange}>
+                    {featureData.map((carFeature) => (
+                        <SelectItem key={carFeature.feature} value={carFeature.feature}>
+                            {carFeature.feature}
+                        </SelectItem>
+                    ))}
+                </Select>
+                <Select
+                    className="w-1/3"
+                    label="Car Safety Features"
+                    variant="bordered"
+                    placeholder="Select car Safety features"
+                    name="vehicleInteriorColor"
+                    color="secondary"
+                    value={formData.carSafetyFeature}
+                    labelPlacement="outside"
+                    selectionMode="multiple"
+                    onChange={handleInputChange}>
+                    {safetyFeatureData.map((carFeature) => (
+                        <SelectItem key={carFeature.feature} value={carFeature.feature}>
+                            {carFeature.feature}
+                        </SelectItem>
+                    ))}
+                </Select>
+                <div className="w-1/3" >
                 {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
+                </div>
             </div>
             <div>
                 <p className="pb-3" htmlFor="description">Description</p>
