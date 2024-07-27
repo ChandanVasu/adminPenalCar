@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input, Button, Select, SelectItem } from "@nextui-org/react";
+import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
 const PostList = () => {
-    // Initialize formData directly
     const [formData, setFormData] = useState({
         title: "",
         image: "",
@@ -32,8 +31,8 @@ const PostList = () => {
         vehicleInteriorColor: "",
         vehicleSeatingCapacity: "",
         vehicleTransmission: "",
-        carFeature: "",
-        carSafetyFeature: "",
+        carFeature: [],
+        carSafetyFeature: [],
         cylinders: ""
     });
 
@@ -139,6 +138,10 @@ const PostList = () => {
     const handleEditorChange = (event, editor) => {
         const data = editor.getData();
         setFormData((prevData) => ({ ...prevData, description: data }));
+    };
+
+    const handleCheckboxChange = (name, values) => {
+        setFormData((prevData) => ({ ...prevData, [name]: values }));
     };
 
     const handleSubmit = async (e) => {
@@ -289,7 +292,7 @@ const PostList = () => {
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("vin", "vin", "Enter VIN", "VIN")}
+                {renderInputField("vin", "vin", "Enter vin", "Vin")}
             </div>
             <div className="flex justify-center items-center gap-3">
                 <Select
@@ -308,9 +311,9 @@ const PostList = () => {
                     ))}
                 </Select>
                 <Select
-                    label="Exterior Color"
+                    label="Color"
                     variant="bordered"
-                    placeholder="Select Exterior Color"
+                    placeholder="Select Color"
                     name="color"
                     color="secondary"
                     value={formData.color}
@@ -336,110 +339,83 @@ const PostList = () => {
                             {type}
                         </SelectItem>
                     ))}
-                </Select>
-            </div>
+                </Select>            </div>
             <div className="flex justify-center items-center gap-3">
                 {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
                 <Select
                     label="Fuel Type"
                     variant="bordered"
                     placeholder="Select Fuel Type"
+                    selectionMode="multiple"
                     name="fuelType"
                     color="secondary"
                     value={formData.fuelType}
                     labelPlacement="outside"
                     onChange={handleInputChange}>
-                    {fuelTypeOptions.map((fuelType) => (
-                        <SelectItem key={fuelType} value={fuelType}>
-                            {fuelType}
+                    {fuelTypeOptions.map((fuel) => (
+                        <SelectItem key={fuel} value={fuel}>
+                            {fuel}
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine size", "Engine size")}
+                {renderInputField("vehicleEngine", "vehicleEngine", " vehicle engine Size In L", "Engine Size")}
             </div>
             <div className="flex justify-center items-center gap-3">
+            {renderInputField("cylinders", "cylinders", "Enter cylinders", "Cylinders", "number")}
+            {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter vehicle seating capacity", "Vehicle Seating Capacity", "number")}
                 <Select
-                    label="Interior Color"
+                    label="Vehicle Transmission"
                     variant="bordered"
-                    placeholder="Select Interior Color"
-                    name="vehicleInteriorColor"
-                    color="secondary"
-                    value={formData.vehicleInteriorColor}
-                    labelPlacement="outside"
-                    onChange={handleInputChange}>
-                    {colorData.map((color) => (
-                        <SelectItem key={color.color} value={color.color}>
-                            {color.color}
-                        </SelectItem>
-                    ))}
-                </Select>
-                <Select
-                    label="Transmission"
-                    variant="bordered"
-                    placeholder="Select transmission"
+                    placeholder="Select Vehicle Transmission"
                     name="vehicleTransmission"
+                    selectionMode="multiple"
                     color="secondary"
                     value={formData.vehicleTransmission}
                     labelPlacement="outside"
                     onChange={handleInputChange}>
-                    {transmissionOptions.map((transmissionOptions) => (
-                        <SelectItem key={transmissionOptions} value={transmissionOptions}>
-                            {transmissionOptions}
+                    {transmissionOptions.map((transmission) => (
+                        <SelectItem key={transmission} value={transmission}>
+                            {transmission}
                         </SelectItem>
                     ))}
                 </Select>
-                {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
             </div>
-            <div className="flex justify-center items-center gap-3">
-                <Select
-                className="w-1/3"
+            <div className="flex justify-start items-center gap-20">
+                <CheckboxGroup
                     label="Car Features"
-                    variant="bordered"
-                    placeholder="Select car features"
-                    name="carFeature"
+                    orientation="vertical"
                     color="secondary"
-                    selectionMode="multiple"
                     value={formData.carFeature}
-                    labelPlacement="outside"
-                    onChange={handleInputChange}>
-                    {featureData.map((carFeature) => (
-                        <SelectItem key={carFeature.feature} value={carFeature.feature}>
-                            {carFeature.feature}
-                        </SelectItem>
+                    onChange={(values) => handleCheckboxChange("carFeature", values)}>
+                    {featureData.map((feature) => (
+                        <Checkbox key={feature._id} value={feature.feature}>
+                            {feature.feature}
+                        </Checkbox>
                     ))}
-                </Select>
-                <Select
-                    className="w-1/3"
+                </CheckboxGroup>
+                <CheckboxGroup
                     label="Car Safety Features"
-                    variant="bordered"
-                    placeholder="Select car Safety features"
-                    name="carSafetyFeature"
+                    orientation="vertical"
                     color="secondary"
                     value={formData.carSafetyFeature}
-                    labelPlacement="outside"
-                    selectionMode="multiple"
-                    onChange={handleInputChange}>
-                    {safetyFeatureData.map((carFeature) => (
-                        <SelectItem key={carFeature.feature} value={carFeature.feature}>
-                            {carFeature.feature}
-                        </SelectItem>
+                    onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}>
+                    {safetyFeatureData.map((feature) => (
+                        <Checkbox key={feature._id} value={feature.feature}>
+                            {feature.feature}
+                        </Checkbox>
                     ))}
-                </Select>
-                <div className="w-1/3" >
-                {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
-                </div>
+                </CheckboxGroup>
             </div>
-            <div>
-                <p className="pb-3" htmlFor="description">Description</p>
-                <CKEditor
-                    editor={ClassicEditor}
-                    config={editorConfig}
-                    data={formData.description}
-                    onChange={handleEditorChange}
-                />
-            </div>
-            <Button type="submit" color="primary">Submit</Button>
-            <ToastContainer autoClose={1000} position="bottom-center" />
+            <CKEditor
+                editor={ClassicEditor}
+                config={editorConfig}
+                data={formData.description}
+                onChange={handleEditorChange}
+            />
+            <Button type="submit" color="secondary" >
+                Submit
+            </Button>
+            <ToastContainer position="top-right" autoClose={3000} />
         </form>
     );
 };

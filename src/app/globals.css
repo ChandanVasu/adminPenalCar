@@ -22,8 +22,11 @@
 .ck.ck-editor__editable_inline {
   padding-left: 30px !important;
   padding-right: 30px !important;
+  min-height: 300px !important;
   line-height: 1.5;
 }
+
+
 
 h1 {
   font-size: 30px;
