@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
             <div className="fixed w-72 p-4 bg-slate-50 shadow h-full">
               <AdminMenu />
             </div>
-            <div className="ml-72 w-full h-full bg-white p-4">
+            <div className="ml-72 w-full h-full bg-white p-4 overflow-hidden">
               {children}
             </div>
           </div>

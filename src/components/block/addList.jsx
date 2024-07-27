@@ -30,7 +30,6 @@ const PostList = () => {
         fuelType: "",
         vehicleEngine: "",
         vehicleInteriorColor: "",
-        vehicleInteriorType: "",
         vehicleSeatingCapacity: "",
         vehicleTransmission: "",
         carFeature: "",
@@ -378,7 +377,7 @@ const PostList = () => {
                     label="Transmission"
                     variant="bordered"
                     placeholder="Select transmission"
-                    name="fuelType"
+                    name="vehicleTransmission"
                     color="secondary"
                     value={formData.vehicleTransmission}
                     labelPlacement="outside"
@@ -397,7 +396,7 @@ const PostList = () => {
                     label="Car Features"
                     variant="bordered"
                     placeholder="Select car features"
-                    name="vehicleInteriorColor"
+                    name="carFeature"
                     color="secondary"
                     selectionMode="multiple"
                     value={formData.carFeature}
@@ -414,7 +413,7 @@ const PostList = () => {
                     label="Car Safety Features"
                     variant="bordered"
                     placeholder="Select car Safety features"
-                    name="vehicleInteriorColor"
+                    name="carSafetyFeature"
                     color="secondary"
                     value={formData.carSafetyFeature}
                     labelPlacement="outside"
