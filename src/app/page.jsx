@@ -1,32 +1,23 @@
-"use client";
-
-import { useEffect, useState } from 'react';
+"use client"
+import React from "react";
+import {CheckboxGroup, Checkbox} from "@nextui-org/react";
 
 export default function App() {
-  const [makeData, setMakeData] = useState(null);
-
-  const fetchMakeData = async () => {
-    try {
-      const response = await fetch("/api/listing/make");
-      const data = await response.json();
-      setMakeData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  useEffect(() => {
-    fetchMakeData();
-  }, []);
+  const [selected, setSelected] = React.useState(["buenos-aires", "sydney"]);
 
   return (
-    <div>
-      <h1>Fetched Data:</h1>
-      {makeData ? (
-        <pre>{JSON.stringify(makeData, null, 2)}</pre>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="flex flex-col gap-3">
+      <CheckboxGroup
+        label="Select cities"
+        color="warning"
+        value={selected}
+        onValueChange={setSelected}
+      >
+        <Checkbox value="buenos-aires">Buenos Aires</Checkbox>
+        <Checkbox value="sydney">Sydney</Checkbox>
+        <Checkbox value="san-francisco">San Francisco</Checkbox>
+      </CheckboxGroup>
+      <p className="text-default-500 text-small">Selected: {selected.join(", ")}</p>
     </div>
   );
 }

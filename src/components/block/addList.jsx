@@ -28,7 +28,6 @@ const PostList = () => {
         numberOfDoors: "",
         fuelType: "",
         vehicleEngine: "",
-        vehicleInteriorColor: "",
         vehicleSeatingCapacity: "",
         vehicleTransmission: "",
         carFeature: [],
@@ -380,10 +379,10 @@ const PostList = () => {
                     ))}
                 </Select>
             </div>
-            <div className="flex justify-start items-center gap-20">
+            <div className="flex justify-between items-center gap-20">
                 <CheckboxGroup
                     label="Car Features"
-                    orientation="vertical"
+                    orientation="horizontal"
                     color="secondary"
                     value={formData.carFeature}
                     onChange={(values) => handleCheckboxChange("carFeature", values)}>
@@ -395,7 +394,7 @@ const PostList = () => {
                 </CheckboxGroup>
                 <CheckboxGroup
                     label="Car Safety Features"
-                    orientation="vertical"
+                    orientation="horizontal"
                     color="secondary"
                     value={formData.carSafetyFeature}
                     onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}>
