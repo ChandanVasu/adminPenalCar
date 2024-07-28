@@ -12,6 +12,7 @@ function CustomModal({ isOpen, onClose, onConfirm, title, children }) {
                 <div className="flex justify-end space-x-4">
                     <Button
                         color='success'
+                        className='text-white'
                         onClick={onClose}>
                         Cancel
                     </Button>

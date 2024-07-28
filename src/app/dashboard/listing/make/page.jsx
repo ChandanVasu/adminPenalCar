@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { Input, Button } from "@nextui-org/react";
-import CustomModal from '@/components/block/modal'; 
+import { Input, Button, Spinner } from "@nextui-org/react";
+import CustomModal from '@/components/block/modal';
+
 
 export default function Make() {
     const [makeData, setMakeData] = useState([]);
@@ -113,7 +114,7 @@ export default function Make() {
         closeDeleteModal();
     };
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60 "> <Spinner color="primary" size="lg" /></div>;
 
     return (
         <div>
