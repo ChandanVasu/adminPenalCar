@@ -17,7 +17,7 @@ const AdminMenu = () => {
   };
 
   return (
-    <nav className='w-full p-4 '>
+    <nav className='w-full p-4'>
       <ul className='adminMenuList flex-col flex gap-1'>
         <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
           <FaHome className='inline-block mr-2' />
@@ -25,7 +25,7 @@ const AdminMenu = () => {
         </li>
         <li className='menu-item flex flex-col mb-2'>
           <div
-            className={`py-2 px-4 flex items-center rounded-lg cursor-pointer justify-between  bg-white text-black hover:bg-blue-100`}
+            className={`py-2 px-4 flex items-center rounded-lg cursor-pointer justify-between bg-white text-black hover:bg-blue-100`}
             onClick={() => handleMenuClick("carListings")}
           >
             <div className='flex items-center'>
@@ -36,13 +36,33 @@ const AdminMenu = () => {
           </div>
           {isCarListingsOpen && (
             <ul className="pl-6 mt-2 space-y-2">
-              <li className='px-3 py-2 bg-white rounded-lg hover:bg-blue-100 '>
+              <li className='px-3 py-2 bg-white rounded-lg hover:bg-blue-100'>
                 <FaPlus className='inline-block mr-2' />
                 <Link href="/dashboard/listing/new">Add New Listing</Link>
               </li>
               <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
                 <FaList className='inline-block mr-2' />
-                <Link href="/admin/categories">Categories</Link>
+                <Link href="/dashboard/listing/make">Make</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Model</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Color</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Features</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Safety Features</Link>
+              </li>
+              <li className='menu-item py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer bg-white text-black hover:bg-blue-100'>
+                <FaList className='inline-block mr-2' />
+                <Link href="/admin/categories">Type</Link>
               </li>
             </ul>
           )}
@@ -54,7 +74,7 @@ const AdminMenu = () => {
         </li>
         <li className='menu-item flex flex-col mb-2'>
           <div
-            className={`py-2 px-4 flex items-center rounded-lg cursor-pointer justify-between  bg-white text-black hover:bg-blue-100`}
+            className={`py-2 px-4 flex items-center rounded-lg cursor-pointer justify-between bg-white text-black hover:bg-blue-100`}
             onClick={() => handleMenuClick("blogPost")}
           >
             <div className='flex items-center'>
@@ -65,7 +85,7 @@ const AdminMenu = () => {
           </div>
           {isBlogPostOpen && (
             <ul className="pl-6 mt-2 space-y-2">
-              <li className='px-3 py-2 bg-white rounded-lg hover:bg-blue-100 '>
+              <li className='px-3 py-2 bg-white rounded-lg hover:bg-blue-100'>
                 <FaPlus className='inline-block mr-2' />
                 <Link href="/dashboard/listing/new">Add New Post</Link>
               </li>
