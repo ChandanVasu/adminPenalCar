@@ -4,12 +4,14 @@ import { Image, Skeleton } from "@nextui-org/react";
 import { MdOutlineDelete } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import CustomModal from '@/components/block/modal'; 
 export default function CarListing() {
   const [listing, setListing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -53,6 +55,16 @@ export default function CarListing() {
       console.error("Error deleting item:", error);
       toast.error("Failed to delete item");
     }
+  };
+
+  const handleDeleteClick = (id) => {
+    setDeleteItemId(id);
+    setIsDeleteModalVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteItem(deleteItemId);
+    setIsDeleteModalVisible(false);
   };
 
   const renderSkeleton = () => (
@@ -100,8 +112,8 @@ export default function CarListing() {
                   <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">{index + 1}</p>
                 </div>
                 <i
-                  onClick={() => deleteItem(item._id)}
-                  className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black">
+                  onClick={() => handleDeleteClick(item._id)}
+                  className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black shadow-inner">
                   <MdOutlineDelete />
                 </i>
               </div>
@@ -109,7 +121,16 @@ export default function CarListing() {
           ))}
         </div>
       )}
-      <ToastContainer position="bottom-center" />
+      <ToastContainer position="bottom-right" autoClose={2000} />
+
+      <CustomModal
+        isOpen={isDeleteModalVisible}
+        onClose={() => setIsDeleteModalVisible(false)}
+        onConfirm={handleConfirmDelete}
+        title="Confirm Deletion"
+      >
+        <p>Are you sure you want to delete this item? This action cannot be undone.</p>
+      </CustomModal>
     </div>
   );
 }

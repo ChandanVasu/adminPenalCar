@@ -1,7 +1,8 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import { Input, Button } from "@nextui-org/react";
+import CustomModal from '@/components/block/modal'; 
 
 export default function Make() {
     const [makeData, setMakeData] = useState([]);
@@ -10,6 +11,8 @@ export default function Make() {
     const [newImage, setNewImage] = useState("");
     const [selectedMake, setSelectedMake] = useState(null);
     const [error, setError] = useState("");
+    const [deleteMakeId, setDeleteMakeId] = useState(null);
+    const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
     const apiEndpoint = "/api/listing/make";
 
     useEffect(() => {
@@ -95,72 +98,97 @@ export default function Make() {
         }
     };
 
+    const openDeleteModal = (id) => {
+        setDeleteMakeId(id);
+        setIsDeleteModalVisible(true);
+    };
+
+    const closeDeleteModal = () => {
+        setDeleteMakeId(null);
+        setIsDeleteModalVisible(false);
+    };
+
+    const confirmDeleteMake = () => {
+        handleDeleteMake(deleteMakeId);
+        closeDeleteModal();
+    };
+
     if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="flex p-6 space-x-6">
-            {/* Form Section for Adding/Updating Make */}
-            <div className="w-full max-w-sm p-4 bg-gray-100 border border-gray-300 rounded-lg shadow-sm">
-                <h2 className="text-xl font-bold mb-4">
-                    {selectedMake ? "Update Category" : "Add New Category"}
-                </h2>
-                <form onSubmit={selectedMake ? (e) => { e.preventDefault(); handleUpdateMake(); } : handleAddMake}>
-                    <input
-                        type="text"
-                        value={newMake}
-                        onChange={(e) => setNewMake(e.target.value)}
-                        placeholder="Enter category name"
-                        className="p-2 border border-gray-300 rounded w-full mb-4"
-                    />
-                    <input
-                        type="text"
-                        value={newImage}
-                        onChange={(e) => setNewImage(e.target.value)}
-                        placeholder="Enter image URL"
-                        className="p-2 border border-gray-300 rounded w-full mb-4"
-                    />
-                    <button
-                        type="submit"
-                        className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center"
-                    >
-                        {selectedMake ? (
-                            <FaEdit className="text-lg" />
-                        ) : (
-                            <FaPlus className="text-lg" />
-                        )}
-                    </button>
-                    {error && <p className="text-red-500 mt-2">{error}</p>}
-                </form>
+        <div>
+            <div className="flex justify-between p-6 space-x-6">
+                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
+                    <h2 className="text-xl font-bold mb-10 ml-2">
+                        {selectedMake ? "Update Make" : "Add New Make"}
+                    </h2>
+                    <form onSubmit={selectedMake ? (e) => { e.preventDefault(); handleUpdateMake(); } : handleAddMake}>
+                        <Input
+                            label="Make Brand Name"
+                            color="primary"
+                            labelPlacement="outside" type="text"
+                            value={newMake}
+                            onChange={(e) => setNewMake(e.target.value)}
+                            placeholder="Tata"
+                            className="p-2 w-full mb-10"
+                        />
+                        <Input
+                            label="Make Logo Url"
+                            color="primary"
+                            labelPlacement="outside" type="text"
+                            value={newImage}
+                            onChange={(e) => setNewImage(e.target.value)}
+                            placeholder="https://image-vasu.jpg"
+                            className="p-2  w-full mb-6"
+                        />
+                        <Button color="secondary" className="ml-2"
+                            type="submit">
+                            {selectedMake ? (
+                                "Update"
+                            ) : (
+                                "Add"
+                            )}
+                        </Button>
+                        {error && <p className="text-red-500 mt-2">{error}</p>}
+                    </form>
+                </div>
+
+                <div className="w-1/2 p-4 rounded-lg shadow-md">
+                    <h2 className="text-xl font-bold mb-4">Make List</h2>
+                    <ul className="list-disc pl-5">
+                        {makeData.map((makeItem) => (
+                            <li key={makeItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
+                                <img src={makeItem.image} alt={makeItem.make} className="bg-white w-14 h-14 object-cover mr-4 rounded-full shadow-md p-2" />
+                                <p className="font-medium">{makeItem.make}</p>
+                                <button
+                                    onClick={() => {
+                                        setSelectedMake(makeItem);
+                                        setNewMake(makeItem.make);
+                                        setNewImage(makeItem.image);
+                                    }}
+                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50"
+                                >
+                                    <MdModeEdit />
+                                </button>
+                                <button
+                                    onClick={() => openDeleteModal(makeItem._id)}
+                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50">
+                                    <MdDelete className="" />
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
 
-            {/* Category List Section */}
-            <div className="w-full max-w-sm p-4 bg-white border border-gray-300 rounded-lg shadow-sm">
-                <h2 className="text-xl font-bold mb-4">Category List</h2>
-                <ul className="list-disc pl-5">
-                    {makeData.map((makeItem) => (
-                        <li key={makeItem._id} className="mb-2 flex items-center">
-                            <img src={makeItem.image} alt={makeItem.make} className="w-12 h-12 object-cover mr-4 rounded-full" />
-                            {makeItem.make}
-                            <button
-                                onClick={() => {
-                                    setSelectedMake(makeItem);
-                                    setNewMake(makeItem.make);
-                                    setNewImage(makeItem.image);
-                                }}
-                                className="ml-4 text-blue-500 hover:underline flex items-center"
-                            >
-                                <FaEdit className="mr-1" />
-                            </button>
-                            <button
-                                onClick={() => handleDeleteMake(makeItem._id)}
-                                className="ml-4 text-red-500 hover:underline flex items-center"
-                            >
-                                <FaTrashAlt className="mr-1" />
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <CustomModal
+                isOpen={isDeleteModalVisible}
+                onClose={closeDeleteModal}
+                onConfirm={confirmDeleteMake}
+                title="Confirm Deletion"
+            >
+                <p>Are you sure you want to delete this make? This action cannot be undone.</p>
+            </CustomModal>
         </div>
     );
 }
