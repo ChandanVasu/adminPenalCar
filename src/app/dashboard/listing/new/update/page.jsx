@@ -1,13 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox } from "@nextui-org/react";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+import dynamic from 'next/dynamic'; // Dynamically import CKEditor
+const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), { ssr: false });
 
-const listingId = "66a673727cc3991e5107c76f";
+
+const listingId = "66a673727cc3991e5107c76f"
 
 const PostList = () => {
   const initialFormData = {
@@ -55,6 +58,8 @@ const PostList = () => {
     transmissionOptions: ["Automatic", "Manual", "Semi-Automatic"],
     driveTypeOptions: ["Front Wheel Drive", "Rear Wheel Drive", "All Wheel Drive", "Four Wheel Drive"]
   };
+
+  //   const router = useRouter();
 
   useEffect(() => {
     fetchData("/api/listing/make", setMakeData);
@@ -140,6 +145,7 @@ const PostList = () => {
       } else {
         const data = await response.json();
         toast.success(data.message);
+        // router.push('/'); // Redirect or perform any other action on success
       }
     } catch (error) {
       toast.error(error.message);
@@ -214,53 +220,56 @@ const PostList = () => {
         <div className="flex justify-center items-center gap-3">
           {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
           {renderSelectField("Fuel Type", "fuelType", options.fuelTypeOptions)}
-          {renderInputField("vehicleEngine", "vehicleEngine", "Enter vehicle engine details", "Vehicle Engine")}
+          {renderInputField("vehicleEngine", "vehicleEngine", "Enter vehicle engine", "Engine")}
         </div>
         <div className="flex justify-center items-center gap-3">
           {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
           {renderSelectField("Transmission", "vehicleTransmission", options.transmissionOptions)}
-          {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
+          {renderInputField("cylinders", "cylinders", "Enter cylinders", "Cylinders", "number")}
         </div>
-        <div>
-          <label htmlFor="description">Description</label>
+        <div className="mb-10">
+          <CheckboxGroup
+            label="Car Features"
+            orientation="horizontal"
+            value={formData.carFeature}
+            onChange={(values) => handleCheckboxChange("carFeature", values)}
+          >
+            {featureData.map(feature => (
+              <Checkbox key={feature.feature} value={feature.feature}>
+                {feature.feature}
+              </Checkbox>
+            ))}
+          </CheckboxGroup>
+        </div>
+        <div  className="mb-10">
+          <CheckboxGroup
+            label="Car Safety Features"
+            orientation="horizontal"
+            value={formData.carSafetyFeature}
+            onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}
+          >
+            {safetyFeatureData.map(feature => (
+              <Checkbox key={feature.feature} value={feature.feature}>
+                {feature.feature}
+              </Checkbox>
+            ))}
+          </CheckboxGroup>
+        </div>
+        <div className="w-full">
           <CKEditor
             editor={ClassicEditor}
-            data={formData.description}
             config={editorConfig}
+            data={formData.description}
             onChange={handleEditorChange}
           />
         </div>
         <div>
-          <CheckboxGroup
-            label="Car Features"
-            value={formData.carFeature}
-            onChange={(values) => handleCheckboxChange("carFeature", values)}
-          >
-            {featureData.map((feature) => (
-              <Checkbox key={feature._id} value={feature.feature}>
-                {feature.feature} - {feature.description}
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
+          <Button type="submit" color="primary">
+            Submit
+          </Button>
         </div>
-        <div>
-          <CheckboxGroup
-            label="Car Safety Features"
-            value={formData.carSafetyFeature}
-            onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}
-          >
-            {safetyFeatureData.map((feature) => (
-              <Checkbox key={feature._id} value={feature.feature}>
-                {feature.feature} - {feature.description}
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
-        </div>
-        <Button type="submit" color="primary" radius="sm" variant="solid" size="lg">
-          Submit
-        </Button>
-        <ToastContainer />
       </form>
+      <ToastContainer />
     </div>
   );
 };
