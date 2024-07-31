@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 
 const AddListing = dynamic(() => import('@/components/block/addList'), {
-  ssr: false // Disable server-side rendering
+  ssr: false 
 });
 
 export default function App() {
