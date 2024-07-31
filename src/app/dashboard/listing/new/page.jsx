@@ -1,11 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
 import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox } from "@nextui-org/react";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+
+// Dynamically import CKEditor with SSR disabled
+const CKEditor = dynamic(() => import('@ckeditor/ckeditor5-react').then(mod => mod.CKEditor), { ssr: false });
+const ClassicEditor = dynamic(() => import('@ckeditor/ckeditor5-build-classic'), { ssr: false });
 
 const PostList = () => {
   const [formData, setFormData] = useState({
@@ -197,54 +200,51 @@ const PostList = () => {
         <div className="flex justify-center items-center gap-3">
           {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
           {renderSelectField("Fuel Type", "fuelType", formData.fuelType, fuelTypeOptions)}
-          {renderInputField("vehicleEngine", "vehicleEngine", "Enter vehicle engine size in L", "Engine Size")}
+          {renderInputField("vehicleEngine", "vehicleEngine", "Enter vehicle engine", "Vehicle Engine")}
         </div>
         <div className="flex justify-center items-center gap-3">
-          {renderInputField("cylinders", "cylinders", "Enter cylinders", "Cylinders", "number")}
           {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter vehicle seating capacity", "Vehicle Seating Capacity", "number")}
           {renderSelectField("Vehicle Transmission", "vehicleTransmission", formData.vehicleTransmission, transmissionOptions)}
+          {renderInputField("cylinders", "cylinders", "Enter cylinders", "Cylinders")}
         </div>
-        <div className="flex justify-between flex-col items-center gap-5">
+        <div>
           <CheckboxGroup
-            label="Car Features"
-            orientation="horizontal"
-            color="secondary"
+            label="Features"
             value={formData.carFeature}
             onChange={(values) => handleCheckboxChange("carFeature", values)}>
             {featureData.map((feature) => (
-              <Checkbox key={feature._id} value={feature.feature}>
+              <Checkbox key={feature.feature} value={feature.feature}>
                 {feature.feature}
               </Checkbox>
             ))}
           </CheckboxGroup>
+        </div>
+        <div>
           <CheckboxGroup
-            label="Car Safety Features"
-            orientation="horizontal"
-            color="secondary"
+            label="Safety Features"
             value={formData.carSafetyFeature}
             onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}>
-            {safetyFeatureData.map((safetyFeature) => (
-              <Checkbox key={safetyFeature._id} value={safetyFeature.feature}>
-                {safetyFeature.feature}
+            {safetyFeatureData.map((feature) => (
+              <Checkbox key={feature.feature} value={feature.feature}>
+                {feature.feature}
               </Checkbox>
             ))}
           </CheckboxGroup>
         </div>
-        <div className="">
+        <div className="mt-4">
           <CKEditor
             editor={ClassicEditor}
-            config={editorConfig}
             data={formData.description}
             onChange={handleEditorChange}
           />
         </div>
-        <div className="">
-          <Button color="primary" type="submit" className="mb-5">
+        <div className="mt-4">
+          <Button type="submit" color="secondary" variant="flat" className="w-full">
             Submit
           </Button>
         </div>
-        <ToastContainer />
       </form>
+      <ToastContainer />
     </div>
   );
 };
