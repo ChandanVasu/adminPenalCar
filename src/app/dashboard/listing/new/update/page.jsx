@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { useState, useEffect } from "react";
 import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -238,7 +238,7 @@ const PostList = () => {
             ))}
           </CheckboxGroup>
         </div>
-        <div  className="mb-10">
+        <div className="mb-10">
           <CheckboxGroup
             label="Car Safety Features"
             orientation="horizontal"
