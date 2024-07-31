@@ -26,31 +26,31 @@ const AdminMenu = () => {
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/new") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaPlus className='inline-block mr-2' />
-          <Link href="/dashboard/listing/new">New Listing</Link>
+          <Link href="/dashboard/listing/new">New Listing</Link> 
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/make") ? "bg-black text-white" : "bg-white text-black"}`}>
           <SiRollsroyce className='inline-block mr-2' />
           <Link href="/dashboard/listing/make">Make</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/categories/model") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/model") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaList className='inline-block mr-2' />
-          <Link href="/admin/categories/model">Model</Link>
+          <Link href="/dashboard/listing/model">Model</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/categories/color") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/color") ? "bg-black text-white" : "bg-white text-black"}`}>
           <IoIosColorPalette className='inline-block mr-2' />
-          <Link href="/admin/categories/color">Color</Link>
+          <Link href="/dashboard/listing/color">Color</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/categories/features") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/features") ? "bg-black text-white" : "bg-white text-black"}`}>
           <GiCarDoor className='inline-block mr-2' />
-          <Link href="/admin/categories/features">Features</Link>
+          <Link href="/dashboard/listing/features">Features</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/categories/safety-features") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/safety-features") ? "bg-black text-white" : "bg-white text-black"}`}>
           <AiOutlineSafety className='inline-block mr-2' />
-          <Link href="/admin/categories/safety-features">Safety Features</Link>
+          <Link href="/dashboard/listing/safety-features">Safety Features</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/categories/type") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/type") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaList className='inline-block mr-2' />
-          <Link href="/admin/categories/type">Type</Link>
+          <Link href="/dashboard/listing/type">Type</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/users") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaUsers className='inline-block mr-2' />

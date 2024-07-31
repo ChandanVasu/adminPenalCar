@@ -126,7 +126,7 @@ export default function Make() {
                     <form onSubmit={selectedMake ? (e) => { e.preventDefault(); handleUpdateMake(); } : handleAddMake}>
                         <Input
                             label="Make Brand Name"
-                            color="primary"
+                            // color="primary"
                             labelPlacement="outside" type="text"
                             value={newMake}
                             onChange={(e) => setNewMake(e.target.value)}
@@ -135,14 +135,14 @@ export default function Make() {
                         />
                         <Input
                             label="Make Logo Url"
-                            color="primary"
+                            // color="primary"
                             labelPlacement="outside" type="text"
                             value={newImage}
                             onChange={(e) => setNewImage(e.target.value)}
                             placeholder="https://image-vasu.jpg"
                             className="p-2  w-full mb-6"
                         />
-                        <Button color="secondary" className="ml-2"
+                        <Button className="ml-2 bg-black text-white"
                             type="submit">
                             {selectedMake ? (
                                 "Update"
@@ -156,6 +156,14 @@ export default function Make() {
 
                 <div className="w-1/2 p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Make List</h2>
+                    <ul className="list-disc pl-5" >
+                        <li className="flex justify-between items-center px-5 py-2 mb-1">
+                            <p>Image</p>
+                            <p>Make</p>
+                            <p>Edit</p>
+                            <p>Delete</p>
+                        </li>
+                    </ul>
                     <ul className="list-disc pl-5">
                         {makeData.map((makeItem) => (
                             <li key={makeItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
@@ -173,7 +181,7 @@ export default function Make() {
                                 </button>
                                 <button
                                     onClick={() => openDeleteModal(makeItem._id)}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50">
+                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
                                     <MdDelete className="" />
                                 </button>
                             </li>
