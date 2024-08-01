@@ -1,23 +1,19 @@
 "use client"
-import React, { useState } from "react";
-import { Input } from "@nextui-org/react";
+import Link from 'next/link';
 
-export default function App() {
-  const [email, setEmail] = useState("demo");
-
-  const handleChange = (e) => {
-    setEmail(e.target.value);
-  };
+export default function Home() {
+  const data = "chandanbabu";
 
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Input 
-        type="email" 
-        value={email} 
-        label="Email" 
-        placeholder="Enter your email" 
-        onChange={handleChange} 
-      />
+    <div>
+      <Link
+        href={{
+          pathname: '/demo',
+          query: { name: "chanan"} 
+        }}
+      >
+        Go to Demo Page
+      </Link>
     </div>
   );
 }

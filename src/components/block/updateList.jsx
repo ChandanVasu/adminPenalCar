@@ -1,19 +1,17 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox } from "@nextui-org/react";
+import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox, Spinner } from "@nextui-org/react";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassicEditor, editorConfig } from '@/lib/editorConfig';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
-const listingId = "66a67dcccf3274deeb27f03f"
-
-const PostList = () => {
+const PostList = ({ listingId }) => { // Destructure listingId from props
   const initialFormData = {
     title: "",
     image: "",
-    price: "",
+    price: "", 
     priceCurrency: "USD",
     description: "",
     make: "",
@@ -45,6 +43,7 @@ const PostList = () => {
   const [featureData, setFeatureData] = useState([]);
   const [safetyFeatureData, setSafetyFeatureData] = useState([]);
   const [isModelDisabled, setIsModelDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
 
   const options = {
     availabilityOptions: ["InStock", "OutOfStock"],
@@ -56,15 +55,19 @@ const PostList = () => {
     driveTypeOptions: ["Front Wheel Drive", "Rear Wheel Drive", "All Wheel Drive", "Four Wheel Drive"]
   };
 
-  //   const router = useRouter();
-
   useEffect(() => {
-    fetchData("/api/listing/make", setMakeData);
-    fetchData("/api/listing/color", setColorData);
-    fetchData("/api/listing/type", setTypeData);
-    fetchData("/api/listing/features", setFeatureData);
-    fetchData("/api/listing/safety-features", setSafetyFeatureData);
-    fetchListingData();
+    const fetchAllData = async () => {
+      await Promise.all([
+        fetchData("/api/listing/make", setMakeData),
+        fetchData("/api/listing/color", setColorData),
+        fetchData("/api/listing/type", setTypeData),
+        fetchData("/api/listing/features", setFeatureData),
+        fetchData("/api/listing/safety-features", setSafetyFeatureData),
+        fetchListingData()
+      ]);
+      setIsLoading(false); // Set loading to false once all data is fetched
+    };
+    fetchAllData();
   }, []);
 
   useEffect(() => {
@@ -187,86 +190,91 @@ const PostList = () => {
 
   return (
     <div>
-      <h3 className="ml-2 font-bold">Update Listing</h3>
-      <form onSubmit={handleSubmit} className="p-4 space-y-4">
-        <div className="flex justify-center items-center gap-3">
-          {renderInputField("title", "title", "Enter title", "Title")}
-          {renderInputField("image", "image", "Enter image URL", "Image URL")}
-          {renderInputField("price", "price", "Enter price", "Price", "number")}
+      {isLoading ? (
+        <div className="flex justify-center items-center min-h-screen">
+          <Spinner color="primary" size="lg" />
         </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderSelectField("Price Currency", "priceCurrency", options.priceCurrencyOptions)}
-          {renderSelectField("Make", "make", makeData.map(make => make.make))}
-          {renderSelectField("Model", "model", modelData.map(model => model.model), isModelDisabled)}
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderInputField("year", "year", "Enter car year", "Year", "number")}
-          {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
-          {renderSelectField("Mileage Unit", "mileageUnit", options.mileageUnitOptions)}
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderSelectField("Condition", "itemCondition", options.itemConditionOptions)}
-          {renderSelectField("Availability", "availability", options.availabilityOptions)}
-          {renderInputField("vin", "vin", "Enter VIN number", "VIN")}
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderSelectField("Color", "color", colorData.map(color => color.color))}
-          {renderSelectField("Body Type", "bodyType", typeData.map(type => type.type))}
-          {renderSelectField("Drive Type", "driveWheelConfiguration", options.driveTypeOptions)}
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
-          {renderSelectField("Fuel Type", "fuelType", options.fuelTypeOptions)}
-          {renderInputField("vehicleEngine", "vehicleEngine", "Enter vehicle engine", "Engine")}
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
-          {renderSelectField("Transmission", "vehicleTransmission", options.transmissionOptions)}
-          {renderInputField("cylinders", "cylinders", "Enter cylinders", "Cylinders", "number")}
-        </div>
-        <div className="mb-10">
-          <CheckboxGroup
-            label="Car Features"
-            orientation="horizontal"
-            value={formData.carFeature}
-            onChange={(values) => handleCheckboxChange("carFeature", values)}
-          >
-            {featureData.map(feature => (
-              <Checkbox key={feature.feature} value={feature.feature}>
-                {feature.feature}
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
-        </div>
-        <div  className="mb-10">
-          <CheckboxGroup
-            label="Car Safety Features"
-            orientation="horizontal"
-            value={formData.carSafetyFeature}
-            onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}
-          >
-            {safetyFeatureData.map(feature => (
-              <Checkbox key={feature.feature} value={feature.feature}>
-                {feature.feature}
-              </Checkbox>
-            ))}
-          </CheckboxGroup>
-        </div>
-        <div className="w-full">
-          <CKEditor
-            editor={ClassicEditor}
-            config={editorConfig}
-            data={formData.description}
-            onChange={handleEditorChange}
-          />
-        </div>
-        <div>
-          <Button type="submit" color="primary">
-            Submit
-          </Button>
-        </div>
-      </form>
-      <ToastContainer />
+      ) : (
+        <>
+          <h3 className="ml-2 font-bold">Update Listing</h3>
+          <form onSubmit={handleSubmit} className="p-4 space-y-4">
+            <div className="flex justify-center items-center gap-3">
+              {renderInputField("title", "title", "Enter title", "Title")}
+              {renderInputField("image", "image", "Enter image URL", "Image URL")}
+              {renderInputField("price", "price", "Enter price", "Price", "number")}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderSelectField("Price Currency", "priceCurrency", options.priceCurrencyOptions)}
+              {renderSelectField("Make", "make", makeData.map(make => make.make))}
+              {renderSelectField("Model", "model", modelData.map(model => model.model), isModelDisabled)}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderInputField("year", "year", "Enter car year", "Year", "number")}
+              {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
+              {renderSelectField("Mileage Unit", "mileageUnit", options.mileageUnitOptions)}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderSelectField("Condition", "itemCondition", options.itemConditionOptions)}
+              {renderSelectField("Availability", "availability", options.availabilityOptions)}
+              {renderInputField("vin", "vin", "Enter VIN number", "VIN")}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderSelectField("Color", "color", colorData.map(color => color.color))}
+              {renderSelectField("Body Type", "bodyType", typeData.map(type => type.type))}
+              {renderSelectField("Drive Type", "driveWheelConfiguration", options.driveTypeOptions)}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
+              {renderSelectField("Fuel Type", "fuelType", options.fuelTypeOptions)}
+              {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine description", "Engine")}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
+              {renderSelectField("Vehicle Transmission", "vehicleTransmission", options.transmissionOptions)}
+              {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
+            </div>
+            <div className="flex justify-center items-center gap-3">
+              <CheckboxGroup
+                label="Car Features"
+                value={formData.carFeature}
+                orientation="horizontal"
+                color="secondary"
+                onChange={(values) => handleCheckboxChange("carFeature", values)}
+              >
+                {featureData.map((feature, index) => (
+                  <Checkbox key={index} value={feature.feature}>{feature.feature}</Checkbox>
+                ))}
+              </CheckboxGroup>
+            </div>
+            <div className="flex justify-center items-center gap-3 flex-c">
+              <CheckboxGroup
+                label="Safety Features"
+                value={formData.carSafetyFeature}
+                color="secondary"
+                orientation="horizontal"
+                onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}
+              >
+                {safetyFeatureData.map((safetyFeature, index) => (
+                  <Checkbox key={index} value={safetyFeature.feature}>{safetyFeature.feature}</Checkbox>
+                ))}
+              </CheckboxGroup>
+            </div>
+            <div>
+              <p htmlFor="description" className="font-bold pb-3">Description</p>
+              <CKEditor
+                editor={ClassicEditor}
+                config={editorConfig}
+                data={formData.description}
+                onChange={handleEditorChange}
+              />
+            </div>
+            <div>
+              <Button type="submit"  className="bg-black text-white">Update</Button>
+            </div>
+          </form>
+          <ToastContainer />
+        </>
+      )}
     </div>
   );
 };

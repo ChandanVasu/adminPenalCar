@@ -239,7 +239,7 @@ const PostList = () => {
           />
         </div>
         <div className="">
-          <Button color="primary" type="submit" className="mb-5">
+          <Button  type="submit" className="bg-black text-white">
             Submit
           </Button>
         </div>
