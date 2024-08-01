@@ -110,7 +110,7 @@ export default function CarListing() {
               <div className="flex justify-between">
                 <div className="relative">
                   <p className="text-black dark:text-white">
-                    Title: {item.title}
+                   {item.title}
                   </p>
                   <p className="text-black dark:text-white">
                     Price: {item.price}

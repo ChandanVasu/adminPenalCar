@@ -1,11 +1,12 @@
 "use client";
-import { FaHome, FaCar, FaPlus, FaList, FaUsers, FaCog } from 'react-icons/fa';
+import { FaHome, FaCar, FaPlus, FaList, FaUsers, FaCog, FaBlogger, FaTags } from 'react-icons/fa';
 import { IoIosColorPalette } from "react-icons/io";
 import { SiRollsroyce } from "react-icons/si";
+import { IoChatbox } from "react-icons/io5";
 import { GiCarDoor } from "react-icons/gi";
 import { AiOutlineSafety } from "react-icons/ai";
-
 import Link from 'next/link';
+import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { usePathname } from 'next/navigation';
 
 const AdminMenu = () => {
@@ -14,19 +15,28 @@ const AdminMenu = () => {
   const isActive = (path) => pathname === path;
 
   return (
-    <nav className='w-full h-screen p-4 overflow-y-auto'>
-      <ul className='adminMenuList flex-col flex gap-1'>
+    <nav className='w-full h-screen p-4 overflow-y-auto custom-scrollbar'>
+      <ul className='adminMenuList flex-col flex gap-1 mb-20'>
         <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaHome className='inline-block mr-2' />
           <Link href="/">Dashboard</Link>
         </li>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/layouts") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <TbLayoutDashboardFilled className='inline-block mr-2' />
+          <Link href="/">Layouts</Link>
+        </li>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/chat") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <IoChatbox  className='inline-block mr-2' />
+          <Link href="/">Message</Link>
+        </li>
+        <p className='ml-4 text-stone-300 font-semibold uppercase text-sm my-2'>Car Listing</p>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaCar className='inline-block mr-2' />
           <Link href="/dashboard/listing">Car Listings</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/new") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaPlus className='inline-block mr-2' />
-          <Link href="/dashboard/listing/new">New Listing</Link> 
+          <Link href="/dashboard/listing/new">New Listing</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/make") ? "bg-black text-white" : "bg-white text-black"}`}>
           <SiRollsroyce className='inline-block mr-2' />
@@ -51,6 +61,19 @@ const AdminMenu = () => {
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing/type") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaList className='inline-block mr-2' />
           <Link href="/dashboard/listing/type">Type</Link>
+        </li>
+        <p className='ml-4 text-stone-300 font-semibold uppercase text-sm my-2'>Blog Post</p>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <FaBlogger className='inline-block mr-2' />
+          <Link href="/admin/blog">Blog Posts</Link>
+        </li>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog/new") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <FaPlus className='inline-block mr-2' />
+          <Link href="/admin/blog/new">New Post</Link>
+        </li>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog/categories") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <FaTags className='inline-block mr-2' />
+          <Link href="/admin/blog/categories">Categories</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/users") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaUsers className='inline-block mr-2' />
