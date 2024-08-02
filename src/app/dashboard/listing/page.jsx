@@ -6,6 +6,7 @@ import { MdOutlineDelete, MdModeEdit } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomModal from "@/components/block/modal";
+
 export default function CarListing() {
   const [listing, setListing] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,25 +103,20 @@ export default function CarListing() {
               key={item._id}
               className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white "
             >
-              <Image
-                src={item.image}
-                className="h-[180px] w-[100%] rounded-xl mb-2"
-                alt={item.title}
-              />
-              <div className="flex justify-between">
-                <div className="relative">
-                  <p className="text-black dark:text-white">
-                   {item.title}
-                  </p>
-                  <p className="text-black dark:text-white">
-                    Price: {item.price}
-                  </p>
-                  <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
-                    {index + 1}
-                  </p>
-                </div>
-
-                <div className="flex gap-2 ">
+              <div className="relative block">
+                <p
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${
+                    item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                  }`}
+                >
+                  {item.visibility}
+                </p>
+                <Image
+                  src={item.image}
+                  className="h-[180px] w-[100%] rounded-xl mb-2 block m-0"
+                  alt={item.title}
+                />
+                <div className="flex gap-2 absolute bottom-2 right-2 z-50">
                   <i className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black shadow-inner">
                     <Link
                       href={{
@@ -137,6 +133,17 @@ export default function CarListing() {
                   >
                     <MdOutlineDelete />
                   </i>
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <div className="relative">
+                  <p className="text-black dark:text-white">{item.title}</p>
+                  <p className="text-black dark:text-white">
+                    Price: {item.price}
+                  </p>
+                  <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
+                    {index + 1}
+                  </p>
                 </div>
               </div>
             </div>
