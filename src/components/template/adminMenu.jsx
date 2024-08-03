@@ -29,7 +29,7 @@ const AdminMenu = () => {
           <IoChatbox  className='inline-block mr-2' />
           <Link href="/">Message</Link>
         </li>
-        <p className='ml-4 text-stone-300 font-semibold uppercase text-sm my-2'>Car Listing</p>
+        <p className='ml-4 text-stone-300 font-semibold  text-sm my-2'>CAR LISTING</p>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaCar className='inline-block mr-2' />
           <Link href="/dashboard/listing">Car Listings</Link>
@@ -62,14 +62,14 @@ const AdminMenu = () => {
           <FaList className='inline-block mr-2' />
           <Link href="/dashboard/listing/type">Type</Link>
         </li>
-        <p className='ml-4 text-stone-300 font-semibold uppercase text-sm my-2'>Blog Post</p>
-        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <p className='ml-4 text-stone-300 font-semibold  text-sm my-2'>BLOG POST</p>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/blog") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaBlogger className='inline-block mr-2' />
-          <Link href="/admin/blog">Blog Posts</Link>
+          <Link href="/dashboard/blog">Blog Posts</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog/new") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/blog/new") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaPlus className='inline-block mr-2' />
-          <Link href="/admin/blog/new">New Post</Link>
+          <Link href="/dashboard/blog/new">New Post</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog/categories") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaTags className='inline-block mr-2' />
