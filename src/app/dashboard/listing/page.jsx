@@ -6,18 +6,34 @@ import { MdOutlineDelete, MdModeEdit } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomModal from "@/components/block/modal";
+import { Input } from "@nextui-org/react";
+
 
 export default function CarListing() {
   const [listing, setListing] = useState([]);
+  const [filteredListing, setFilteredListing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredListing(
+        listing.filter((item) =>
+          item.title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredListing(listing);
+    }
+  }, [searchQuery, listing]);
 
   const fetchData = async () => {
     try {
@@ -30,6 +46,7 @@ export default function CarListing() {
         setNotFound(true);
       } else {
         setListing(data);
+        setFilteredListing(data);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -78,7 +95,19 @@ export default function CarListing() {
   );
 
   return (
-    <div className="container">
+    <div className="">
+
+      <div className="flex justify-between items-center mb-4 mx-4">
+        <p className="font-bold text-xl">Car Listing Page</p>
+        <Input
+          type="text"
+          placeholder="Search listings"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className=" w-1/4"
+        />
+      </div>
+
       {loading && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4">
           {renderSkeleton()}
@@ -98,25 +127,24 @@ export default function CarListing() {
 
       {!loading && !error && !notFound && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
-          {listing.map((item, index) => (
+          {filteredListing.map((item, index) => (
             <div
               key={item._id}
               className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white "
             >
               <div className="relative block">
                 <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${
-                    item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
-                  }`}
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                    }`}
                 >
                   {item.visibility}
                 </p>
-                <Image
+                <img
                   src={item.image}
-                  className="h-[180px] w-[100%] rounded-xl mb-2 block m-0"
+                  className="h-[170px] w-full  rounded-md mb-2 block m-0"
                   alt={item.title}
                 />
-                <div className="flex gap-2 absolute bottom-2 right-2 z-50">
+                <div className="flex gap-2 absolute bottom-4 right-2 z-50">
                   <i className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black shadow-inner">
                     <Link
                       href={{
@@ -137,10 +165,17 @@ export default function CarListing() {
               </div>
               <div className="flex justify-between">
                 <div className="relative">
-                  <p className="text-black dark:text-white">{item.title}</p>
                   <p className="text-black dark:text-white">
-                    Price: {item.price}
+                    {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
                   </p>
+                  <div className="flex gap-7">
+                    <p className="text-black dark:text-white">
+                    Make: {item.make}
+                  </p>
+                  <p className="text-black dark:text-white">
+                    Make: {item.model}
+                  </p>
+                  </div>
                   <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
                     {index + 1}
                   </p>
