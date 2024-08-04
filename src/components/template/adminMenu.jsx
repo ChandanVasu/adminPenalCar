@@ -71,9 +71,9 @@ const AdminMenu = () => {
           <FaPlus className='inline-block mr-2' />
           <Link href="/dashboard/blog/new">New Post</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/blog/categories") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/blog/cat") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaTags className='inline-block mr-2' />
-          <Link href="/admin/blog/categories">Categories</Link>
+          <Link href="/dashboard/blog/cat">Categories</Link>
         </li>
         <li className={`py-2 px-4 flex items-center rounded-lg mb-2 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/admin/users") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaUsers className='inline-block mr-2' />

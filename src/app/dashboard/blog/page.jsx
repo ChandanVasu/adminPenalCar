@@ -144,7 +144,7 @@ export default function BlogPostListing() {
                   <i className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black shadow-inner">
                     <Link
                       href={{
-                        pathname: "/dashboard/posts/edit",
+                        pathname: "/dashboard/blog/new/update",
                         query: { id: post._id },
                       }}
                     >
@@ -164,9 +164,6 @@ export default function BlogPostListing() {
                 <h2 className="text-base font-semibold">
                   {post.title.length > 25 ? `${post.title.substring(0, 25)}...` : post.title}
                 </h2>
-                <p className="text-gray-600">
-                  {post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}
-                </p>
                 <p className="absolute top-0 left-0  text-6xl opacity-10 font-bold text-gray-500">
                   {index + 1}
                 </p>

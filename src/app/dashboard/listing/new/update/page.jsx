@@ -6,7 +6,7 @@ const AddListing = dynamic(() => import('@/components/block/updateList'), {
 });
 
 export default function App(context) {
-  // const listingId = "66a67dcccf3274deeb27f03f"; 
+  
 
   const params = context.searchParams
 
