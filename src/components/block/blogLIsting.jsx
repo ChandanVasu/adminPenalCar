@@ -124,13 +124,13 @@ export default function BlogPostListing() {
 
       {!loading && !error && !notFound && (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {filteredPosts.map((post, index) => (
+          {filteredPosts.slice(0, 8).map((post, index) => (
             <div
               key={post._id}
               className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 bg-white"
             >
               <div className="relative block">
-                <p
+              <p
                   className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${post.visibility === "Active" ? "bg-green-600" : "bg-red-600"
                     }`}
                 >

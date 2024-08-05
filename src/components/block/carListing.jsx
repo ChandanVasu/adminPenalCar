@@ -7,9 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CustomModal from "@/components/block/modal";
 
-export default function BlogPostListing() {
-  const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
+export default function CarListing() {
+  const [listing, setListing] = useState([]);
+  const [filteredListing, setFilteredListing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
@@ -23,19 +23,19 @@ export default function BlogPostListing() {
 
   useEffect(() => {
     if (searchQuery) {
-      setFilteredPosts(
-        posts.filter((post) =>
-          post.title.toLowerCase().includes(searchQuery.toLowerCase())
+      setFilteredListing(
+        listing.filter((item) =>
+          item.title.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
     } else {
-      setFilteredPosts(posts);
+      setFilteredListing(listing);
     }
-  }, [searchQuery, posts]);
+  }, [searchQuery, listing]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/posts");
+      const response = await fetch("/api/listing");
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -43,8 +43,8 @@ export default function BlogPostListing() {
       if (data.length === 0) {
         setNotFound(true);
       } else {
-        setPosts(data);
-        setFilteredPosts(data);
+        setListing(data);
+        setFilteredListing(data);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -56,7 +56,7 @@ export default function BlogPostListing() {
 
   const deleteItem = async (id) => {
     try {
-      const response = await fetch(`/api/posts`, {
+      const response = await fetch(`/api/listing`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -66,11 +66,11 @@ export default function BlogPostListing() {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      setPosts(posts.filter((post) => post._id !== id));
-      toast.success("Post deleted successfully");
+      setListing(listing.filter((item) => item._id !== id));
+      toast.success("Item deleted successfully");
     } catch (error) {
-      console.error("Error deleting post:", error);
-      toast.error("Failed to delete post");
+      console.error("Error deleting item:", error);
+      toast.error("Failed to delete item");
     }
   };
 
@@ -85,7 +85,7 @@ export default function BlogPostListing() {
   };
 
   const renderSkeleton = () => (
-    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 shadow-md bg-white">
+    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
       <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
       <Skeleton className="h-5 w-[100%] mb-1" />
       <Skeleton className="h-5 w-[60%] mb-1" />
@@ -93,12 +93,12 @@ export default function BlogPostListing() {
   );
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <p className="font-bold text-xl">Blog Post Listing</p>
+    <div className="">
+      <div className="flex justify-between items-center mb-4 mx-4">
+        <p className="font-bold text-xl">Car Listing Page</p>
         <Input
           type="text"
-          placeholder="Search posts"
+          placeholder="Search listings"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-1/4"
@@ -106,7 +106,7 @@ export default function BlogPostListing() {
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4">
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
@@ -120,61 +120,68 @@ export default function BlogPostListing() {
 
       {error && <p className="text-red-500 text-center mt-4">Error: {error}</p>}
 
-      {notFound && !loading && <p className="text-center mt-4">No posts found</p>}
+      {notFound && !loading && <p className="text-center mt-4">Not Found</p>}
 
       {!loading && !error && !notFound && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {filteredPosts.map((post, index) => (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
+          {filteredListing.slice(0, 8).map((item, index) => (
             <div
-              key={post._id}
-              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 bg-white"
+              key={item._id}
+              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white "
             >
               <div className="relative block">
                 <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${post.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
                     }`}
                 >
-                  {post.visibility}
+                  {item.visibility}
                 </p>
                 <img
-                  src={post.thumbnail}
-                  className="h-[170px] w-full rounded-md mb-2 block m-0"
-                  alt={post.title}
+                  src={item.image}
+                  className="h-[170px] w-full  rounded-md mb-2 block m-0"
+                  alt={item.title}
                 />
                 <div className="flex gap-2 absolute bottom-4 right-2 z-50">
                   <i className="w-min h-min p-2 rounded-lg bg-primary-50 cursor-pointer text-lg text-black shadow-inner">
                     <Link
                       href={{
-                        pathname: "/dashboard/blog/new/update",
-                        query: { id: post._id },
+                        pathname: "/dashboard/listing/new/update",
+                        query: { id: item._id },
                       }}
                     >
                       <MdModeEdit />
                     </Link>
                   </i>
                   <i
-                    onClick={() => handleDeleteClick(post._id)}
+                    onClick={() => handleDeleteClick(item._id)}
                     className="w-min h-min p-2 rounded-lg bg-red-50 cursor-pointer text-lg text-black shadow-inner"
                   >
                     <MdOutlineDelete />
                   </i>
                 </div>
-
               </div>
-              <div className="flex flex-col relative">
-                <h2 className="text-base font-semibold">
-                  {post.title.length > 25 ? `${post.title.substring(0, 25)}...` : post.title}
-                </h2>
-                <div className="flex gap-5 justify-between"><p>Cat : {post.category}</p><p>Date : {post.date}</p></div>
-                <p className="absolute top-0 left-0  text-6xl opacity-10 font-bold text-gray-500">
-                  {index + 1}
-                </p>
+              <div className="flex justify-between">
+                <div className="relative">
+                  <h2 className="text-base font-semibold">
+                    {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
+                  </h2>
+                  <div className="flex gap-7">
+                    <p className="text-black dark:text-white">
+                      Make: {item.make}
+                    </p>
+                    <p className="text-black dark:text-white">
+                      Model: {item.model}
+                    </p>
+                  </div>
+                  <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
+                    {index + 1}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
-
       <ToastContainer position="bottom-right" autoClose={2000} />
 
       <CustomModal
@@ -183,7 +190,10 @@ export default function BlogPostListing() {
         onConfirm={handleConfirmDelete}
         title="Confirm Deletion"
       >
-        <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+        <p>
+          Are you sure you want to delete this item? This action cannot be
+          undone.
+        </p>
       </CustomModal>
     </div>
   );

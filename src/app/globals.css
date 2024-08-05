@@ -130,3 +130,7 @@ p {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.z-999{
+  z-index: 999;
+}

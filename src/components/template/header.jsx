@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className=" sticky top-0 z-50 main-head py-2 px-7 shadow-md bg-white">
+    <header className=" sticky top-0 z-999 main-head py-2 px-7 shadow-md bg-white">
       <div className="flex justify-between items-center">
         <Link href="/">
           <img src="/logo.png" alt="" className="logo-img" />
