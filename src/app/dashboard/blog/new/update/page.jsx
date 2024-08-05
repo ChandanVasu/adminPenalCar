@@ -1,14 +1,18 @@
-"use client"
+"use client";
 import dynamic from 'next/dynamic';
 
 const UpdateBlog = dynamic(() => import('@/components/block/updateBlog'), {
   ssr: false 
 });
 
-export default function App() {
+export default function App(context) {
+  
+
+  const params = context.searchParams
+
   return (
     <div className="">
-      <UpdateBlog></UpdateBlog>
+      <UpdateBlog BlogId={params.id} />
     </div>
   );
 }

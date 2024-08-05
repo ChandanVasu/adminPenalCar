@@ -6,11 +6,10 @@ import { ClassicEditor, editorConfig } from "@/lib/editorConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const listingId = "66afcce7dad4f0262ab86d5c"
+// const BlogId = "66afcce7dad4f0262ab86d5c"
 
-const Page = (context) => {
-  const params = context.searchParams
-  const listingId = params.id
+const Page = ({BlogId}) => {
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -48,7 +47,7 @@ const Page = (context) => {
     try {
       const response = await fetch("/api/posts/");
       const data = await response.json();
-      const filteredData = data.find((item) => item._id === listingId);
+      const filteredData = data.find((item) => item._id === BlogId);
       if (filteredData) {
         setFormData(filteredData);
         console.log(filteredData);
@@ -84,7 +83,7 @@ const Page = (context) => {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id: listingId,
+          id: BlogId,
           updateData,
         }),
       });
