@@ -136,7 +136,7 @@ export default function BlogPostListing() {
                 >
                   {post.visibility}
                 </p>
-                <img
+                <img data-disableanimation
                   src={post.thumbnail}
                   className="h-[170px] w-full rounded-md mb-2 block m-0"
                   alt={post.title}

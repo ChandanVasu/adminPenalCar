@@ -1,16 +1,21 @@
 "use client"
+import { useEffect } from 'react';
+import { setCookie, getCookie, deleteCookie } from 'cookies-next';
 
-import CarListing from "@/components/block/carListing"
-import BlogList from "@/components/block/blogLIsting"
+const CookieComponent = () => {
+  useEffect(() => {
+    setCookie('user', 'JohnDoe', { maxAge: 60 * 60 * 24 * 7 });
 
+    const user = getCookie('user');
+    console.log(user); 
 
-export default function Home() {
+  }, []);
 
   return (
     <div>
-
-      <CarListing></CarListing>
-      <BlogList></BlogList>
+      <h1>Cookie Example</h1>
     </div>
   );
-}
+};
+
+export default CookieComponent;

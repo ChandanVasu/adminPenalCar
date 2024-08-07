@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import CustomModal from "@/components/block/modal";
 import { Input } from "@nextui-org/react";
 
-
 export default function CarListing() {
   const [listing, setListing] = useState([]);
   const [filteredListing, setFilteredListing] = useState([]);
@@ -45,8 +44,9 @@ export default function CarListing() {
       if (data.length === 0) {
         setNotFound(true);
       } else {
-        setListing(data);
-        setFilteredListing(data);
+        const sortedData = data.sort((b, a) => a.date.localeCompare(b.date));
+        setListing(sortedData);
+        setFilteredListing(sortedData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -96,7 +96,6 @@ export default function CarListing() {
 
   return (
     <div className="">
-
       <div className="flex justify-between items-center mb-4 mx-4">
         <p className="font-bold text-xl">Car Listing Page</p>
         <Input
@@ -170,11 +169,11 @@ export default function CarListing() {
                   </h2>
                   <div className="flex gap-7">
                     <p className="text-black dark:text-white">
-                    Make: {item.make}
-                  </p>
-                  <p className="text-black dark:text-white">
-                    Make: {item.model}
-                  </p>
+                      Make: {item.make}
+                    </p>
+                    <p className="text-black dark:text-white">
+                      Model: {item.model}
+                    </p>
                   </div>
                   <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
                     {index + 1}

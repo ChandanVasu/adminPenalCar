@@ -43,14 +43,15 @@ export default function CarListing() {
       if (data.length === 0) {
         setNotFound(true);
       } else {
-        setListing(data);
-        setFilteredListing(data);
+        const sortedData = data.sort((b, a) => a.date.localeCompare(b.date));
+        setListing(sortedData);
+        setFilteredListing(sortedData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data");
     } finally {
-      setLoading(false);
+      setLoading(false);6
     }
   };
 

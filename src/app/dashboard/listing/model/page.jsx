@@ -228,7 +228,7 @@ export default function Model() {
                 key={modelItem._id}
                 className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50"
               >
-                <img
+                <img data-disableanimation
                   src={modelItem.image}
                   alt={modelItem.model}
                   className="bg-white w-14 h-14 object-cover mr-4 rounded-full shadow-md p-2"

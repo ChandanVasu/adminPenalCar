@@ -10,12 +10,12 @@ export default function Header() {
           <img src="/logo.png" alt="" className="logo-img" />
         </Link>
 
-        <Avatar
+        {/* <Avatar
           isBordered
           color="secondary"
           size="sm"
           src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-        />
+        /> */}
       </div>
     </header>
   );
