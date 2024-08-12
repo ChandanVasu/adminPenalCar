@@ -47,7 +47,7 @@ const PostList = () => {
   const [isModelDisabled, setIsModelDisabled] = useState(true);
 
   const [availabilityOptions] = useState(["InStock", "OutOfStock"]);
-  const [mileageUnitOptions] = useState(["KMT", "SMI"]);
+  const [mileageUnitOptions] = useState(["KMPL", "SMI"]);
   const [priceCurrencyOptions] = useState(["INR", "USD", "EUR", "GBP"]);
   const [itemConditionOptions] = useState(["New", "Used"]);
   const [fuelTypeOptions] = useState([

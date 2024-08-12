@@ -59,7 +59,7 @@ const PostList = ({ listingId }) => {
 
   const options = {
     availabilityOptions: ["InStock", "OutOfStock"],
-    mileageUnitOptions: ["KMT", "SMI"],
+    mileageUnitOptions: ["KMPL", "SMI"],
     priceCurrencyOptions: ["INR", "USD", "EUR", "GBP"],
     itemConditionOptions: ["New", "Used"],
     fuelTypeOptions: ["Petrol", "Diesel", "Electric", "Hybrid"],
