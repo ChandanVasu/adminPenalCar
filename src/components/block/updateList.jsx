@@ -219,7 +219,7 @@ const PostList = ({ listingId }) => {
             <div className="flex justify-center items-center gap-3">
               {renderInputField("title", "title", "Enter title", "Title")}
               {renderInputField("image", "image", "Enter image URL", "Image URL")}
-              {renderInputField("price", "price", "Enter price", "Price", "number")}
+              {renderInputField("price", "price", "Enter price", "Price")}
             </div>
             <div className="flex justify-center items-center gap-3">
               {renderSelectField("Price Currency", "priceCurrency", options.priceCurrencyOptions)}
