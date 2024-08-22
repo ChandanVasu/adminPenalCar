@@ -33,7 +33,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-1">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-semibold mb-6 text-center">Login</h1>
         <div className="flex flex-col gap-4">
@@ -62,8 +62,13 @@ const LoginPage = () => {
           >
             Login
           </Button>
+          <div>
+        <p>Email- admin</p>
+        <p>Password- password</p>
+      </div>
         </div>
       </div>
+      
     </div>
   );
 };

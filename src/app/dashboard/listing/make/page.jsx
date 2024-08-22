@@ -4,7 +4,6 @@ import { MdDelete, MdModeEdit } from "react-icons/md";
 import { Input, Button, Spinner } from "@nextui-org/react";
 import CustomModal from '@/components/block/modal';
 
-
 export default function Make() {
     const [makeData, setMakeData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -114,75 +113,69 @@ export default function Make() {
         closeDeleteModal();
     };
 
-    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60 "> <Spinner color="primary" size="lg" /></div>;
+    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60"> <Spinner color="primary" size="lg" /></div>;
 
     return (
-        <div>
-            <div className="flex justify-between p-6 space-x-6">
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
-                    <h2 className="text-xl font-bold mb-10 ml-2">
+        <div className="p-0 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:space-x-6">
+                <div className="w-full sm:w-1/2 p-4 rounded-lg shadow-md mb-4 sm:mb-0">
+                    <h2 className="text-xl font-bold mb-4">
                         {selectedMake ? "Update Make" : "Add New Make"}
                     </h2>
                     <form onSubmit={selectedMake ? (e) => { e.preventDefault(); handleUpdateMake(); } : handleAddMake}>
                         <Input
                             label="Make Brand Name"
-                            // color="primary"
                             labelPlacement="outside" type="text"
                             value={newMake}
                             onChange={(e) => setNewMake(e.target.value)}
                             placeholder="Tata"
-                            className="p-2 w-full mb-10"
+                            className="p-2 w-full mb-4"
                         />
                         <Input
                             label="Make Logo Url"
-                            // color="primary"
                             labelPlacement="outside" type="text"
                             value={newImage}
                             onChange={(e) => setNewImage(e.target.value)}
                             placeholder="https://image-vasu.jpg"
-                            className="p-2  w-full mb-6"
+                            className="p-2 w-full mb-4"
                         />
-                        <Button className="ml-2 bg-black text-white"
-                            type="submit">
-                            {selectedMake ? (
-                                "Update"
-                            ) : (
-                                "Add"
-                            )}
+                        <Button className="bg-black text-white" type="submit">
+                            {selectedMake ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}
                     </form>
                 </div>
 
-                <div className="w-1/2 p-4 rounded-lg shadow-md">
+                <div className="w-full sm:w-1/2 p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Make List</h2>
-                    <ul className="list-disc pl-5" >
-                        <li className="flex justify-between items-center px-5 py-2 mb-1">
-                            <p>Image</p>
-                            <p>Make</p>
-                            <p>Edit</p>
-                            <p>Delete</p>
+                    <ul className="list-disc pl-0 md:pl-5 mb-4">
+                        <li className="flex flex-wrap justify-between items-center px-5 py-2 mb-1">
+                            <p className="flex-1">Image</p>
+                            <p className="flex-1">Make</p>
+                            <p className="flex-1 text-center">Edit</p>
+                            <p className="flex-1 text-center">Delete</p>
                         </li>
                     </ul>
-                    <ul className="list-disc pl-5">
+                    <ul className="list-disc pl-0 md:pl-5">
                         {makeData.map((makeItem) => (
-                            <li key={makeItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
+                            <li key={makeItem._id} className="flex flex-wrap justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
                                 <img src={makeItem.image} alt={makeItem.make} className="bg-white w-14 h-14 object-cover mr-4 rounded-full shadow-md p-2" />
-                                <p className="font-medium">{makeItem.make}</p>
+                                <p className="font-medium flex-1">{makeItem.make}</p>
                                 <button
                                     onClick={() => {
                                         setSelectedMake(makeItem);
                                         setNewMake(makeItem.make);
                                         setNewImage(makeItem.image);
                                     }}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50"
+                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50 flex-shrink-0 mb-2 sm:mb-0"
                                 >
                                     <MdModeEdit />
                                 </button>
                                 <button
                                     onClick={() => openDeleteModal(makeItem._id)}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
-                                    <MdDelete className="" />
+                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50 flex-shrink-0"
+                                >
+                                    <MdDelete />
                                 </button>
                             </li>
                         ))}

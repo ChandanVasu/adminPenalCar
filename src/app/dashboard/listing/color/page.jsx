@@ -122,13 +122,13 @@ export default function Color() {
         closeDeleteModal();
     };
 
-    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60 "> <Spinner color="primary" size="lg" /></div>;
+    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60"><Spinner color="primary" size="lg" /></div>;
 
     return (
-        <div>
-            <div className="flex justify-between p-6 space-x-6">
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
-                    <h2 className="text-xl font-bold mb-10 ml-2">
+        <div className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:space-x-6">
+                <div className="w-full md:w-1/2 p-4 rounded-lg shadow-md mb-6 md:mb-0">
+                    <h2 className="text-xl font-bold mb-6">
                         {selectedColor ? "Update Color" : "Add New Color"}
                     </h2>
                     <form onSubmit={selectedColor ? (e) => { e.preventDefault(); handleUpdateColor(); } : handleAddColor}>
@@ -142,44 +142,46 @@ export default function Color() {
                             className="p-2 w-full mb-5"
                         />
                         <SketchPicker
-                            label = "Pick Color"
+                            label="Pick Color"
                             color={colorHex}
                             onChangeComplete={(color) => setColorHex(color.hex)}
-                            className="mb-10 ml-3"
+                            className="mb-10"
                         />
-                        <Button className="ml-2 bg-black text-white" type="submit">
+                        <Button className="bg-black text-white w-full" type="submit">
                             {selectedColor ? "Update" : "Add"}
                         </Button>
-                        {error && <p className="text-red-500 mt-2 ml-3">{error}</p>}
+                        {error && <p className="text-red-500 mt-2">{error}</p>}
                     </form>
                 </div>
 
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
+                <div className="w-full md:w-1/2 p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Color List</h2>
-                    <ul className="list-disc pl-5">
+                    <ul className="list-disc md:pl-5">
                         {colorData.map((colorItem) => (
-                            <li key={colorItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
-                                <div className="flex items-center">
+                            <li key={colorItem._id} className="flex  md:flex-row justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
+                                <div className="flex items-center mb-2 md:mb-0">
                                     <div
                                         style={{ backgroundColor: colorItem.hex }}
                                         className="w-6 h-6 rounded-full mr-4"
                                     ></div>
                                     <p className="font-medium">{colorItem.color}</p>
                                 </div>
-                                <button
-                                    onClick={() => {
-                                        setSelectedColor(colorItem);
-                                        setNewColor(colorItem.color);
-                                        setColorHex(colorItem.hex);
-                                    }}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50">
-                                    <MdModeEdit />
-                                </button>
-                                <button
-                                    onClick={() => openDeleteModal(colorItem._id)}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
-                                    <MdDelete className="" />
-                                </button>
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedColor(colorItem);
+                                            setNewColor(colorItem.color);
+                                            setColorHex(colorItem.hex);
+                                        }}
+                                        className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50">
+                                        <MdModeEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => openDeleteModal(colorItem._id)}
+                                        className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
+                                        <MdDelete />
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>

@@ -157,8 +157,8 @@ export default function Model() {
 
   return (
     <div>
-      <div className="flex justify-between p-6 space-x-6">
-        <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
+      <div className="flex justify-between md:p-6  flex-col md:flex-row gap-6">
+        <div className="md:w-1/2 w-full p-4 rounded-lg shadow-md h-min">
           <h2 className="text-xl font-bold mb-10 ml-2">
             {selectedModel ? "Update Model" : "Add New Model"}
           </h2>
@@ -211,9 +211,9 @@ export default function Model() {
           </form>
         </div>
 
-        <div className="w-1/2 p-4 rounded-lg shadow-md">
+        <div className="md:w-1/2 w-full p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-bold mb-4">Model List</h2>
-          <ul className="list-disc pl-5">
+          <ul className="list-disc md:pl-5">
             <li className="flex justify-between items-center px-5 py-2 mb-1">
               <p>Image</p>
               <p>Model</p>

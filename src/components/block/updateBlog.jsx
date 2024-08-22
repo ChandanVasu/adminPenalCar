@@ -110,7 +110,7 @@ const Page = ({BlogId}) => {
       <h3 className="ml-2 font-bold mb-4">Add New Post</h3>
 
 
-      <div className="ml-2 mb-4 flex gap-4">
+      <div className="ml-2 mb-4 flex gap-4 md:flex-row flex-col">
       <Input
             clearable
             underlined
@@ -143,7 +143,7 @@ const Page = ({BlogId}) => {
         />
 
       </div>
-      <div className="ml-2 mb-4 flex gap-4">
+      <div className="ml-2 mb-4 flex gap-4 md:flex-row flex-col">
         <Select
           clearable
           underlined

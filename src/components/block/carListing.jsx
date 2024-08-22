@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Image, Skeleton, Input } from "@nextui-org/react";
+import { Skeleton } from "@nextui-org/react";
 import { MdOutlineDelete, MdModeEdit } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,29 +9,15 @@ import CustomModal from "@/components/block/modal";
 
 export default function CarListing() {
   const [listing, setListing] = useState([]);
-  const [filteredListing, setFilteredListing] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (searchQuery) {
-      setFilteredListing(
-        listing.filter((item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredListing(listing);
-    }
-  }, [searchQuery, listing]);
 
   const fetchData = async () => {
     try {
@@ -45,13 +31,12 @@ export default function CarListing() {
       } else {
         const sortedData = data.sort((b, a) => a.date.localeCompare(b.date));
         setListing(sortedData);
-        setFilteredListing(sortedData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
       setError("Failed to fetch data");
     } finally {
-      setLoading(false);6
+      setLoading(false);
     }
   };
 
@@ -86,28 +71,21 @@ export default function CarListing() {
   };
 
   const renderSkeleton = () => (
-    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
-      <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
-      <Skeleton className="h-5 w-[100%] mb-1" />
-      <Skeleton className="h-5 w-[60%] mb-1" />
+    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 shadow-md bg-white">
+      <Skeleton className="h-[180px] w-full rounded-xl mb-2" />
+      <Skeleton className="h-5 w-full mb-1" />
+      <Skeleton className="h-5 w-3/4 mb-1" />
     </div>
   );
 
   return (
-    <div className="">
-      <div className="flex justify-between items-center mb-4 mx-4">
+    <div className="p-0 md:p-4">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <p className="font-bold text-xl">Car Listing Page</p>
-        <Input
-          type="text"
-          placeholder="Search listings"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-1/4"
-        />
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
@@ -124,22 +102,21 @@ export default function CarListing() {
       {notFound && !loading && <p className="text-center mt-4">Not Found</p>}
 
       {!loading && !error && !notFound && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
-          {filteredListing.slice(0, 8).map((item, index) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {listing.slice(0, 8).map((item, index) => (
             <div
               key={item._id}
-              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white "
+              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 bg-white"
             >
               <div className="relative block">
                 <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
-                    }`}
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"}`}
                 >
                   {item.visibility}
                 </p>
                 <img
                   src={item.image}
-                  className="h-[170px] w-full  rounded-md mb-2 block m-0"
+                  className="h-[170px] w-full rounded-md mb-2"
                   alt={item.title}
                 />
                 <div className="flex gap-2 absolute bottom-4 right-2 z-50">
@@ -161,28 +138,23 @@ export default function CarListing() {
                   </i>
                 </div>
               </div>
-              <div className="flex justify-between">
-                <div className="relative">
-                  <h2 className="text-base font-semibold">
-                    {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
-                  </h2>
-                  <div className="flex gap-7">
-                    <p className="text-black dark:text-white">
-                      Make: {item.make}
-                    </p>
-                    <p className="text-black dark:text-white">
-                      Model: {item.model}
-                    </p>
-                  </div>
-                  <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold">
-                    {index + 1}
-                  </p>
+              <div className="flex flex-col">
+                <h2 className="text-base font-semibold">
+                  {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
+                </h2>
+                <div className="flex flex-col sm:flex-row justify-between gap-2">
+                  <p className="text-black dark:text-white">Make: {item.make}</p>
+                  <p className="text-black dark:text-white">Model: {item.model}</p>
                 </div>
+                <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold text-gray-500">
+                  {index + 1}
+                </p>
               </div>
             </div>
           ))}
         </div>
       )}
+
       <ToastContainer position="bottom-right" autoClose={2000} />
 
       <CustomModal
@@ -192,8 +164,7 @@ export default function CarListing() {
         title="Confirm Deletion"
       >
         <p>
-          Are you sure you want to delete this item? This action cannot be
-          undone.
+          Are you sure you want to delete this item? This action cannot be undone.
         </p>
       </CustomModal>
     </div>

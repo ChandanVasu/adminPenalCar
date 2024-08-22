@@ -116,73 +116,61 @@ export default function Category() {
     if (loading) return <div className="flex w-full h-full items-center justify-center mt-60 "> <Spinner color="primary" size="lg" /></div>;
 
     return (
-        <div>
-            <div className="flex justify-between p-6 space-x-6">
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
-                    <h2 className="text-xl font-bold mb-10 ml-2">
+        <div className="p-4 md:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-md">
+                    <h2 className="text-xl font-bold mb-10">
                         {selectedCategory ? "Update Category" : "Add New Category"}
                     </h2>
                     <form onSubmit={selectedCategory ? (e) => { e.preventDefault(); handleUpdateCategory(); } : handleAddCategory}>
                         <Input
                             label="Category Name"
-                            // color="primary"
-                            labelPlacement="outside" type="text"
+                            labelPlacement="outside"
+                            type="text"
                             value={newCategory}
                             onChange={(e) => setNewCategory(e.target.value)}
-                            placeholder="Tata"
-                            className="p-2 w-full mb-10"
+                            placeholder="Category Name"
+                            className="w-full mb-10"
                         />
                         <Input
                             label="Category Icon Url"
-                            // color="primary"
-                            labelPlacement="outside" type="text"
+                            labelPlacement="outside"
+                            type="text"
                             value={newImage}
                             onChange={(e) => setNewImage(e.target.value)}
-                            placeholder="https://image-vasu.jpg"
-                            className="p-2  w-full mb-6"
+                            placeholder="https://image-url.jpg"
+                            className="w-full mb-4"
                         />
-                        <Button className="ml-2 bg-black text-white"
-                            type="submit">
-                            {selectedCategory ? (
-                                "Update"
-                            ) : (
-                                "Add"
-                            )}
+                        <Button className="w-full bg-black text-white" type="submit">
+                            {selectedCategory ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}
                     </form>
                 </div>
 
-                <div className="w-1/2 p-4 rounded-lg shadow-md">
+                <div className="bg-white p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Category List</h2>
-                    <ul className="list-disc pl-5" >
-                        <li className="flex justify-between items-center px-5 py-2 mb-1">
-                            <p>Image</p>
-                            <p>Category</p>
-                            <p>Edit</p>
-                            <p>Delete</p>
-                        </li>
-                    </ul>
-                    <ul className="list-disc pl-5">
+                    <ul className="space-y-4">
                         {categoryData.map((categoryItem) => (
-                            <li key={categoryItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
-                                <img src={categoryItem.image} alt={categoryItem.category} className="bg-white w-14 h-14 object-cover mr-4 rounded-full shadow-md p-2" />
-                                <p className="font-medium">{categoryItem.category}</p>
-                                <button
-                                    onClick={() => {
-                                        setSelectedCategory(categoryItem);
-                                        setNewCategory(categoryItem.category);
-                                        setNewImage(categoryItem.image);
-                                    }}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50"
-                                >
-                                    <MdModeEdit />
-                                </button>
-                                <button
-                                    onClick={() => openDeleteModal(categoryItem._id)}
-                                    className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
-                                    <MdDelete className="" />
-                                </button>
+                            <li key={categoryItem._id} className="flex justify-between items-center p-4 rounded-md bg-slate-50">
+                                <img src={categoryItem.image} alt={categoryItem.category} className="w-12 h-12 object-cover rounded-full" />
+                                <p className="flex-1 ml-4 font-medium">{categoryItem.category}</p>
+                                <div className="flex space-x-2">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedCategory(categoryItem);
+                                            setNewCategory(categoryItem.category);
+                                            setNewImage(categoryItem.image);
+                                        }}
+                                        className="h-8 w-8 flex justify-center items-center bg-teal-50 rounded-full">
+                                        <MdModeEdit />
+                                    </button>
+                                    <button
+                                        onClick={() => openDeleteModal(categoryItem._id)}
+                                        className="h-8 w-8 flex justify-center items-center bg-red-50 rounded-full">
+                                        <MdDelete />
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>

@@ -7,8 +7,8 @@ const SECRET_KEY = new TextEncoder().encode('chendanvasu'); // Use TextEncoder t
 export async function POST(request) {
   const { email, password } = await request.json();
 
-  const correctEmail = 'admin';
-  const correctPassword = 'password';
+  const correctEmail = process.env.ADMIN_ID;
+  const correctPassword = process.env.ADMIN_PASSWORD;
 
   if (email === correctEmail && password === correctPassword) {
     try {

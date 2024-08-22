@@ -198,12 +198,12 @@ const PostList = () => {
     <div>
       <h3 className="ml-2 font-bold">Add New Listing</h3>
       <form onSubmit={handleSubmit} className="p-4 space-y-4">
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderInputField("title", "title", "Enter title", "Title")}
           {renderInputField("image", "image", "Enter image URL", "Image URL")}
           {renderInputField("price", "price", "Enter price", "Price")}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderSelectField(
             "Price Currency",
             "priceCurrency",
@@ -224,7 +224,7 @@ const PostList = () => {
             isModelDisabled
           )}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderInputField("year", "year", "Enter car year", "Year", "number")}
           {renderInputField(
             "mileage",
@@ -240,7 +240,7 @@ const PostList = () => {
             mileageUnitOptions
           )}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderSelectField(
             "Item Condition",
             "itemCondition",
@@ -255,7 +255,7 @@ const PostList = () => {
           )}
           {renderInputField("vin", "vin", "Enter vin", "Vin")}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderSelectField(
             "Body Type",
             "bodyType",
@@ -275,7 +275,7 @@ const PostList = () => {
             driveTypeOptions
           )}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderInputField(
             "numberOfDoors",
             "numberOfDoors",
@@ -296,7 +296,7 @@ const PostList = () => {
             "Engine Size"
           )}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderInputField(
             "cylinders",
             "cylinders",
@@ -318,7 +318,7 @@ const PostList = () => {
             transmissionOptions
           )}
         </div>
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
           {renderSelectField(
             "Visibility",
             "visibility",

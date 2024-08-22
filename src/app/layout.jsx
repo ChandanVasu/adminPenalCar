@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Poppins } from "next/font/google";
 import { usePathname } from 'next/navigation'; // Use next/navigation for server components
 import "./globals.css";
@@ -19,11 +19,11 @@ export default function RootLayout({ children }) {
           {!isLoginPage && <Header />}
           <div className="flex">
             {!isLoginPage && (
-              <div className="fixed w-72 p-4 bg-white shadow-md h-full">
+              <div className="fixed w-72 p-4 bg-white shadow-md h-full hidden md:block">
                 <AdminMenu />
               </div>
             )}
-            <div className={!isLoginPage ? "ml-72 w-full h-full bg-white p-4 overflow-hidden" : "w-full h-full bg-white overflow-hidden"}>
+            <div className={`w-full h-full bg-white p-4 overflow-hidden ${!isLoginPage ? 'md:ml-72' : ''}`}>
               {children}
             </div>
           </div>

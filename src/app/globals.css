@@ -6,16 +6,22 @@
   background-color: #f7f7ff;
 } */
 
-.logo-img{
+.logo-img {
   height: 40px;
 }
 
 
-.poppins{
+.bg-1 {
+  background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #ffffff 32px), repeating-linear-gradient(#f9f9f9, #f9f9f9);
+  background-color: #ffffff;
+}
+
+
+.poppins {
   font-family: var(--poppins-font);
 }
 
-.ck-powered-by{
+.ck-powered-by {
   display: none !important;
 }
 
@@ -109,7 +115,7 @@ p {
     --chart-3: 216 92% 60%;
     --chart-4: 210 98% 78%;
     --chart-5: 212 97% 87%;
-    }
+  }
 }
 
 /* Custom scrollbar styles */
@@ -131,6 +137,6 @@ p {
   background: #555;
 }
 
-.z-999{
+.z-999 {
   z-index: 999;
 }

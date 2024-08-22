@@ -93,15 +93,15 @@ export default function BlogPostListing() {
   );
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
+    <div className="p-0 md:p-4">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-5">
         <p className="font-bold text-xl">Blog Post Listing</p>
         <Input
           type="text"
           placeholder="Search posts"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-1/4"
+          className="w-full md:w-1/4"
         />
       </div>
 

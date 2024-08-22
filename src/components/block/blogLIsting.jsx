@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Image, Skeleton, Input } from "@nextui-org/react";
+import { Skeleton, Input } from "@nextui-org/react";
 import { MdOutlineDelete, MdModeEdit } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,29 +9,15 @@ import CustomModal from "@/components/block/modal";
 
 export default function BlogPostListing() {
   const [posts, setPosts] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (searchQuery) {
-      setFilteredPosts(
-        posts.filter((post) =>
-          post.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredPosts(posts);
-    }
-  }, [searchQuery, posts]);
 
   const fetchData = async () => {
     try {
@@ -44,7 +30,6 @@ export default function BlogPostListing() {
         setNotFound(true);
       } else {
         setPosts(data);
-        setFilteredPosts(data);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -86,27 +71,20 @@ export default function BlogPostListing() {
 
   const renderSkeleton = () => (
     <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 shadow-md bg-white">
-      <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
-      <Skeleton className="h-5 w-[100%] mb-1" />
-      <Skeleton className="h-5 w-[60%] mb-1" />
+      <Skeleton className="h-[180px] w-full rounded-xl mb-2" />
+      <Skeleton className="h-5 w-full mb-1" />
+      <Skeleton className="h-5 w-3/4 mb-1" />
     </div>
   );
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <p className="font-bold text-xl">Blog Post Listing</p>
-        <Input
-          type="text"
-          placeholder="Search posts"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-1/4"
-        />
+    <div className="p-0 md:p-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+        <p className="font-bold text-xl mb-4 sm:mb-0">Blog Post Listing</p>
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
@@ -123,22 +101,23 @@ export default function BlogPostListing() {
       {notFound && !loading && <p className="text-center mt-4">No posts found</p>}
 
       {!loading && !error && !notFound && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {filteredPosts.slice(0, 8).map((post, index) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {posts.slice(0, 8).map((post, index) => (
             <div
               key={post._id}
               className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 bg-white"
             >
               <div className="relative block">
-              <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${post.visibility === "Active" ? "bg-green-600" : "bg-red-600"
-                    }`}
+                <p
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${
+                    post.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                  }`}
                 >
                   {post.visibility}
                 </p>
-                <img data-disableanimation
+                <img
                   src={post.thumbnail}
-                  className="h-[170px] w-full rounded-md mb-2 block m-0"
+                  className="h-[170px] w-full rounded-md mb-2"
                   alt={post.title}
                 />
                 <div className="flex gap-2 absolute bottom-4 right-2 z-50">
@@ -159,14 +138,16 @@ export default function BlogPostListing() {
                     <MdOutlineDelete />
                   </i>
                 </div>
-
               </div>
               <div className="flex flex-col relative">
                 <h2 className="text-base font-semibold">
                   {post.title.length > 25 ? `${post.title.substring(0, 25)}...` : post.title}
                 </h2>
-                <div className="flex gap-5 justify-between"><p>Cat : {post.category}</p><p>Date : {post.date}</p></div>
-                <p className="absolute top-0 left-0  text-6xl opacity-10 font-bold text-gray-500">
+                <div className="flex flex-col sm:flex-row justify-between gap-2">
+                  <p>Category: {post.category}</p>
+                  <p>Date: {post.date}</p>
+                </div>
+                <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold text-gray-500">
                   {index + 1}
                 </p>
               </div>

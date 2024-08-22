@@ -10,7 +10,6 @@ export default function Features() {
     const [featuresData, setFeaturesData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [newFeature, setNewFeature] = useState("");
-    const [newDescription, setNewDescription] = useState("");
     const [selectedFeature, setSelectedFeature] = useState(null);
     const [error, setError] = useState("");
     const [deleteFeatureId, setDeleteFeatureId] = useState(null);
@@ -36,8 +35,8 @@ export default function Features() {
 
     const handleAddFeature = async (e) => {
         e.preventDefault();
-        if (!newFeature.trim() || !newDescription.trim()) {
-            setError("Feature and description are required");
+        if (!newFeature.trim()) {
+            setError("Feature is required");
             return;
         }
 
@@ -45,11 +44,10 @@ export default function Features() {
             const response = await fetch(featuresApiEndpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ feature: newFeature, description: newDescription })
+                body: JSON.stringify({ feature: newFeature })
             });
             if (!response.ok) throw new Error("Network response was not ok");
             setNewFeature("");
-            setNewDescription("");
             setError("");
             fetchData();
             toast.success("Feature added successfully!");
@@ -61,8 +59,8 @@ export default function Features() {
     };
 
     const handleUpdateFeature = async () => {
-        if (!selectedFeature || !newFeature.trim() || !newDescription.trim()) {
-            setError("Select a feature and provide feature and description");
+        if (!selectedFeature || !newFeature.trim()) {
+            setError("Select a feature and provide a new feature name");
             return;
         }
 
@@ -72,12 +70,11 @@ export default function Features() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     id: selectedFeature._id,
-                    updateData: { feature: newFeature, description: newDescription }
+                    updateData: { feature: newFeature }
                 })
             });
             if (!response.ok) throw new Error("Network response was not ok");
             setNewFeature("");
-            setNewDescription("");
             setSelectedFeature(null);
             setError("");
             fetchData();
@@ -121,13 +118,13 @@ export default function Features() {
         closeDeleteModal();
     };
 
-    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60 "> <Spinner color="primary" size="lg" /></div>;
+    if (loading) return <div className="flex w-full h-full items-center justify-center mt-60"><Spinner color="primary" size="lg" /></div>;
 
     return (
-        <div>
-            <div className="flex justify-between p-6 space-x-6">
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min">
-                    <h2 className="text-xl font-bold mb-10 ml-2">
+        <div className="p-4 md:p-6">
+            <div className="flex flex-col md:flex-row md:space-x-6">
+                <div className="w-full md:w-1/2 p-4 rounded-lg shadow-md mb-6 md:mb-0">
+                    <h2 className="text-xl font-bold mb-6">
                         {selectedFeature ? "Update Feature" : "Add New Feature"}
                     </h2>
                     <form onSubmit={selectedFeature ? (e) => { e.preventDefault(); handleUpdateFeature(); } : handleAddFeature}>
@@ -138,39 +135,26 @@ export default function Features() {
                             value={newFeature}
                             onChange={(e) => setNewFeature(e.target.value)}
                             placeholder="Feature"
-                            className="p-2 w-full mb-4"
-                        />
-                        <Input
-                            label="Description"
-                            labelPlacement="outside"
-                            type="text"
-                            value={newDescription}
-                            onChange={(e) => setNewDescription(e.target.value)}
-                            placeholder="Description"
                             className="p-2 w-full mb-6"
                         />
-                        <Button className="ml-2 bg-black text-white" type="submit">
+                        <Button className="bg-black text-white w-full" type="submit">
                             {selectedFeature ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}
                     </form>
                 </div>
 
-                <div className="w-1/2 p-4 rounded-lg shadow-md">
+                <div className="w-full md:w-1/2 p-4 rounded-lg shadow-md">
                     <h2 className="text-xl font-bold mb-4">Feature List</h2>
                     <ul className="list-disc pl-5">
                         {featuresData.map((featureItem) => (
-                            <li key={featureItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
-                                <div className="flex-1">
-                                    <p className="font-medium">{featureItem.feature}</p>
-                                    <p className="text-gray-300 ">{featureItem.description}</p>
-                                </div>
-                                <div className="flex space-x-2">
+                            <li key={featureItem._id} className="flex flex-col md:flex-row justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
+                                <p className="font-medium">{featureItem.feature}</p>
+                                <div className="flex space-x-2 mt-2 md:mt-0">
                                     <button
                                         onClick={() => {
                                             setSelectedFeature(featureItem);
                                             setNewFeature(featureItem.feature);
-                                            setNewDescription(featureItem.description);
                                         }}
                                         className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-teal-50">
                                         <MdModeEdit />
@@ -178,7 +162,7 @@ export default function Features() {
                                     <button
                                         onClick={() => openDeleteModal(featureItem._id)}
                                         className="h-8 w-8 shadow-inner rounded-full flex justify-center items-center bg-red-50">
-                                        <MdDelete className="" />
+                                        <MdDelete />
                                     </button>
                                 </div>
                             </li>

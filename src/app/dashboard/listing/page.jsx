@@ -87,28 +87,28 @@ export default function CarListing() {
   };
 
   const renderSkeleton = () => (
-    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card shadow-md bg-white ">
-      <Skeleton className="h-[180px] w-[100%] rounded-xl mb-2" />
-      <Skeleton className="h-5 w-[100%] mb-1" />
-      <Skeleton className="h-5 w-[60%] mb-1" />
+    <div className="listingCard p-4 mb-4 rounded-lg flex flex-col gap-1 shadow-md bg-white">
+      <Skeleton className="h-[180px] w-full rounded-xl mb-2" />
+      <Skeleton className="h-5 w-full mb-1" />
+      <Skeleton className="h-5 w-3/4 mb-1" />
     </div>
   );
 
   return (
-    <div className="">
-      <div className="flex justify-between items-center mb-4 mx-4">
-        <p className="font-bold text-xl">Car Listing Page</p>
+    <div className="px-0 py-0 md:p-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+        <p className="font-bold text-xl mb-4 md:mb-0">Car Listing Page</p>
         <Input
           type="text"
           placeholder="Search listings"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className=" w-1/4"
+          className="w-full md:w-1/4"
         />
       </div>
 
       {loading && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {renderSkeleton()}
           {renderSkeleton()}
           {renderSkeleton()}
@@ -125,22 +125,23 @@ export default function CarListing() {
       {notFound && !loading && <p className="text-center mt-4">Not Found</p>}
 
       {!loading && !error && !notFound && (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 px-4 ">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredListing.map((item, index) => (
             <div
               key={item._id}
-              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 listing-card bg-white "
+              className="listingCard shadow-md p-4 mb-4 rounded-lg flex flex-col gap-1 bg-white"
             >
-              <div className="relative block">
+              <div className="relative">
                 <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
-                    }`}
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${
+                    item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                  }`}
                 >
                   {item.visibility}
                 </p>
                 <img
                   src={item.image}
-                  className="h-[170px] w-full  rounded-md mb-2 block m-0"
+                  className="h-[170px] w-full rounded-md mb-2"
                   alt={item.title}
                 />
                 <div className="flex gap-2 absolute bottom-4 right-2 z-50">
@@ -162,12 +163,12 @@ export default function CarListing() {
                   </i>
                 </div>
               </div>
-              <div className="flex justify-between">
+              <div className="flex flex-col md:flex-row justify-between">
                 <div className="relative">
                   <h2 className="text-base font-semibold">
                     {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
                   </h2>
-                  <div className="flex gap-7">
+                  <div className="flex flex-col md:flex-row gap-2">
                     <p className="text-black dark:text-white">
                       Make: {item.make}
                     </p>

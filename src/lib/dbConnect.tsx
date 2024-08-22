@@ -1,1 +1,2 @@
-export const connectionStart = "mongodb+srv://vasu:vasu@vasux.0hbsfrn.mongodb.net/CarRental?retryWrites=true&w=majority&appName=vasux"
+export const connectionStart = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/CarRental?retryWrites=true&w=majority`
+

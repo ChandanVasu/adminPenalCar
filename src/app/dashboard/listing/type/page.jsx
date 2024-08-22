@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
-import { Input, Button, Spinner, Select, SelectItem } from "@nextui-org/react";
+import { Input, Button, Spinner } from "@nextui-org/react";
 import CustomModal from '@/components/block/modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -124,10 +124,10 @@ export default function Types() {
     if (loading) return <div className="flex w-full h-full items-center justify-center mt-60"> <Spinner color="primary" size="lg" /></div>;
 
     return (
-        <div>
-            <div className="flex justify-between p-6 space-x-6">
-                <div className="w-1/2 p-4 rounded-lg shadow-md h-min bg-white">
-                    <h2 className="text-xl font-bold mb-10 ml-2">
+        <div className="p-4 md:p-6">
+            <div className="flex flex-col lg:flex-row justify-between gap-6">
+                <div className="w-full lg:w-1/2 p-4 rounded-lg shadow-md bg-white">
+                    <h2 className="text-xl font-bold mb-10">
                         {selectedType ? "Update Type" : "Add New Type"}
                     </h2>
                     <form onSubmit={selectedType ? (e) => { e.preventDefault(); handleUpdateType(); } : handleAddType}>
@@ -138,7 +138,7 @@ export default function Types() {
                             value={newType}
                             onChange={(e) => setNewType(e.target.value)}
                             placeholder="Type Name"
-                            className="p-2 w-full mb-6"
+                            className="w-full mb-6"
                         />
                         <Input
                             label="Type Image URL"
@@ -147,22 +147,26 @@ export default function Types() {
                             value={newImage}
                             onChange={(e) => setNewImage(e.target.value)}
                             placeholder="https://image-url.jpg"
-                            className="p-2 w-full mb-6"
+                            className="w-full mb-6"
                         />
-                        <Button className="ml-2 bg-black text-white" type="submit">
+                        <Button className="w-full bg-black text-white" type="submit">
                             {selectedType ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}
                     </form>
                 </div>
 
-                <div className="w-1/2 p-4 rounded-lg shadow-md bg-white">
+                <div className="w-full lg:w-1/2 p-4 rounded-lg shadow-md bg-white">
                     <h2 className="text-xl font-bold mb-4">Type List</h2>
-                    <ul className="list-disc pl-5">
+                    <ul className="list-disc pl-5 space-y-4">
                         {typesData.map((typeItem) => (
-                            <li key={typeItem._id} className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50">
+                            <li key={typeItem._id} className="flex justify-between items-center p-4 rounded-md bg-slate-50">
                                 <div className="flex items-center space-x-4">
-                                    <img src={typeItem.image} alt={typeItem.type} className="bg-white w-14 h-14 object-contain object-center mr-4 rounded-full shadow-md p-2" />
+                                    <img
+                                        src={typeItem.image}
+                                        alt={typeItem.type}
+                                        className="bg-white w-14 h-14 object-contain object-center rounded-full shadow-md"
+                                    />
                                     <p className="font-medium">{typeItem.type}</p>
                                 </div>
                                 <div className="flex space-x-2">
