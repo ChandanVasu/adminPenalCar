@@ -137,7 +137,7 @@ export default function Features() {
                             placeholder="Feature"
                             className="p-2 w-full mb-6"
                         />
-                        <Button className="bg-black text-white w-full" type="submit">
+                        <Button isDisabled  className="bg-black text-white w-full" type="submit">
                             {selectedFeature ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}

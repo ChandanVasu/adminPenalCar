@@ -373,7 +373,7 @@ const PostList = () => {
             onChange={handleEditorChange}
           />
         </div>
-        <Button type="submit" className="bg-black text-white">Sumbit</Button>
+        <Button isDisabled  type="submit" className="bg-black text-white">Sumbit</Button>
       </form>
       <ToastContainer />
     </div>

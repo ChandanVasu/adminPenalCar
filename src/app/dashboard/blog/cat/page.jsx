@@ -141,7 +141,7 @@ export default function Category() {
                             placeholder="https://image-url.jpg"
                             className="w-full mb-4"
                         />
-                        <Button className="w-full bg-black text-white" type="submit">
+                        <Button isDisabled  className="w-full bg-black text-white" type="submit">
                             {selectedCategory ? "Update" : "Add"}
                         </Button>
                         {error && <p className="text-red-500 mt-2">{error}</p>}

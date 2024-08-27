@@ -296,7 +296,7 @@ const PostList = ({ listingId }) => {
               />
             </div>
             <div>
-              <Button type="submit" className="bg-black text-white">Update</Button>
+              <Button isDisabled  type="submit" className="bg-black text-white">Update</Button>
             </div>
           </form>
           <ToastContainer />

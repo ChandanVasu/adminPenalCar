@@ -17,6 +17,7 @@ function CustomModal({ isOpen, onClose, onConfirm, title, children }) {
                         Cancel
                     </Button>
                     <Button
+                        isDisabled 
                         onClick={onConfirm}
                         color='danger'>
                         Delete
