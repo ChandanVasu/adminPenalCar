@@ -33,7 +33,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-1">
+    <div className="flex items-center justify-center min-h-screen bg-1 flex-col gap-6">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-semibold mb-6 text-center">Login</h1>
         <div className="flex flex-col gap-4">
@@ -68,7 +68,8 @@ const LoginPage = () => {
       </div>
         </div>
       </div>
-      
+      <p className='bg-red-300 px-5 py-2 text-xl rounded-lg'>Important: Admin All buttons have been disabled for this demo.</p>
+
     </div>
   );
 };
