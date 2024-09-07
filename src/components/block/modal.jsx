@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from "@nextui-org/react";
+import { notify } from "@/components/block/toast"; // Import the `notify` function
+import Toast from "@/components/block/toast"; // Import the ToastContainer
 
 function CustomModal({ isOpen, onClose, onConfirm, title, children }) {
     if (!isOpen) return null;
@@ -17,13 +19,13 @@ function CustomModal({ isOpen, onClose, onConfirm, title, children }) {
                         Cancel
                     </Button>
                     <Button
-                        isDisabled 
-                        onClick={onConfirm}
+                        onClick={notify}  
                         color='danger'>
                         Delete
                     </Button>
                 </div>
             </div>
+            <Toast  />  
         </div>
     );
 }

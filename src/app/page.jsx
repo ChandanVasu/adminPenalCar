@@ -8,7 +8,6 @@ export default function Home() {
 
   return (
     <div>
-
       <CarListing></CarListing>
       <BlogList></BlogList>
     </div>

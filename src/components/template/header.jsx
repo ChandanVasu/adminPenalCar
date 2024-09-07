@@ -1,4 +1,5 @@
 "use client";
+import { IoWarning } from "react-icons/io5";
 import { useState } from "react";
 import Link from "next/link";
 import AdminMenu from "@/components/template/adminMenu";
@@ -18,6 +19,10 @@ export default function Header() {
         <Link href="/">
           <img src="/logo.png" alt="Logo" className="logo-img" />
         </Link>
+
+        <p className="text-center bg-red-200 text-black inline-flex mx-3 px-3 rounded-md justify-center items-center gap-1">{<IoWarning />
+        }  Important: All buttons have been disabled for this demo.</p>
+
 
         {/* Hamburger menu on the right side */}
         <div className="md:hidden flex items-center">
