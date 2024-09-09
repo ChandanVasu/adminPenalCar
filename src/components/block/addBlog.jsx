@@ -172,7 +172,7 @@ const Page = () => {
           onChange={handleEditorChange}
         />
       </div>
-      <Button className="bg-black text-white" onClick={handleSubmit}>
+      <Button isDisabled className="bg-black text-white" onClick={handleSubmit}>
         Submit
       </Button>
       <ToastContainer />

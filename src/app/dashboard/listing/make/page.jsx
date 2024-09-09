@@ -156,7 +156,7 @@ export default function Make() {
               placeholder="https://image-vasu.jpg"
               className="p-2 w-full mb-4"
             />
-            <Button className="bg-black text-white" type="submit">
+            <Button isDisabled className="bg-black text-white" type="submit">
               {selectedMake ? "Update" : "Add"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}

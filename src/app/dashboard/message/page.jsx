@@ -9,7 +9,7 @@ const Page = () => {
   // Function to fetch data from the API
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/users/message");
+      const response = await fetch("/api/users/message");
       const result = await response.json();
       setData(result); // Set the fetched data to state
     } catch (error) {

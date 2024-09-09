@@ -218,135 +218,42 @@ const PostList = ({ listingId }) => {
           <form onSubmit={handleSubmit} className="p-4 space-y-4">
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
               {renderInputField("title", "title", "Enter title", "Title")}
-              {renderInputField(
-                "image",
-                "image",
-                "Enter image URL",
-                "Image URL"
-              )}
+              {renderInputField("image", "image", "Enter image URL", "Image URL")}
               {renderInputField("price", "price", "Enter price", "Price")}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderSelectField(
-                "Price Currency",
-                "priceCurrency",
-                options.priceCurrencyOptions
-              )}
-              {renderSelectField(
-                "Make",
-                "make",
-                makeData.map((make) => make.make)
-              )}
-              {renderSelectField(
-                "Model",
-                "model",
-                modelData.map((model) => model.model),
-                isModelDisabled
-              )}
+              {renderSelectField("Price Currency", "priceCurrency", options.priceCurrencyOptions)}
+              {renderSelectField("Make", "make", makeData.map((make) => make.make))}
+              {renderSelectField("Model", "model", modelData.map((model) => model.model), isModelDisabled)}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderInputField(
-                "year",
-                "year",
-                "Enter car year",
-                "Year",
-                "number"
-              )}
-              {renderInputField(
-                "mileage",
-                "mileage",
-                "Enter car mileage",
-                "Mileage",
-                "number"
-              )}
-              {renderSelectField(
-                "Mileage Unit",
-                "mileageUnit",
-                options.mileageUnitOptions
-              )}
+              {renderInputField("year", "year", "Enter car year", "Year", "number")}
+              {renderInputField("mileage", "mileage", "Enter car mileage", "Mileage", "number")}
+              {renderSelectField("Mileage Unit", "mileageUnit", options.mileageUnitOptions)}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderSelectField(
-                "Condition",
-                "itemCondition",
-                options.itemConditionOptions
-              )}
-              {renderSelectField(
-                "Availability",
-                "availability",
-                options.availabilityOptions
-              )}
+              {renderSelectField("Condition", "itemCondition", options.itemConditionOptions)}
+              {renderSelectField("Availability", "availability", options.availabilityOptions)}
               {renderInputField("vin", "vin", "Enter VIN number", "VIN")}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderSelectField(
-                "Color",
-                "color",
-                colorData.map((color) => color.color)
-              )}
-              {renderSelectField(
-                "Body Type",
-                "bodyType",
-                typeData.map((type) => type.type)
-              )}
-              {renderSelectField(
-                "Drive Type",
-                "driveWheelConfiguration",
-                options.driveTypeOptions
-              )}
+              {renderSelectField("Color", "color", colorData.map((color) => color.color))}
+              {renderSelectField("Body Type", "bodyType", typeData.map((type) => type.type))}
+              {renderSelectField("Drive Type", "driveWheelConfiguration", options.driveTypeOptions)}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderInputField(
-                "numberOfDoors",
-                "numberOfDoors",
-                "Enter number of doors",
-                "Number of Doors",
-                "number"
-              )}
-              {renderSelectField(
-                "Fuel Type",
-                "fuelType",
-                options.fuelTypeOptions
-              )}
-              {renderInputField(
-                "vehicleEngine",
-                "vehicleEngine",
-                "Enter engine description",
-                "Engine"
-              )}
+              {renderInputField("numberOfDoors", "numberOfDoors", "Enter number of doors", "Number of Doors", "number")}
+              {renderSelectField("Fuel Type", "fuelType", options.fuelTypeOptions)}
+              {renderInputField("vehicleEngine", "vehicleEngine", "Enter engine description", "Engine")}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderInputField(
-                "vehicleSeatingCapacity",
-                "vehicleSeatingCapacity",
-                "Enter seating capacity",
-                "Seating Capacity",
-                "number"
-              )}
-              {renderSelectField(
-                "Vehicle Transmission",
-                "vehicleTransmission",
-                options.transmissionOptions
-              )}
-              {renderInputField(
-                "cylinders",
-                "cylinders",
-                "Enter number of cylinders",
-                "Cylinders",
-                "number"
-              )}
+              {renderInputField("vehicleSeatingCapacity", "vehicleSeatingCapacity", "Enter seating capacity", "Seating Capacity", "number")}
+              {renderSelectField("Vehicle Transmission", "vehicleTransmission", options.transmissionOptions)}
+              {renderInputField("cylinders", "cylinders", "Enter number of cylinders", "Cylinders", "number")}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
-              {renderSelectField(
-                "Visibility",
-                "visibility",
-                options.visibilityOptions
-              )}
-              {renderSelectField(
-                "Offer Type",
-                "offerType",
-                options.offerTypeOptions
-              )}
+              {renderSelectField("Visibility", "visibility", options.visibilityOptions)}
+              {renderSelectField("Offer Type", "offerType", options.offerTypeOptions)}
               {renderInputField("date", "date", "Enter date", "Date", "date")}
             </div>
             <div className="flex justify-center items-center gap-3 flex-col md:flex-row">
@@ -355,9 +262,7 @@ const PostList = ({ listingId }) => {
                 value={formData.carFeature}
                 orientation="horizontal"
                 color="secondary"
-                onChange={(values) =>
-                  handleCheckboxChange("carFeature", values)
-                }
+                onChange={(values) => handleCheckboxChange("carFeature", values)}
               >
                 {featureData.map((feature, index) => (
                   <Checkbox key={index} value={feature.feature}>
@@ -372,9 +277,7 @@ const PostList = ({ listingId }) => {
                 value={formData.carSafetyFeature}
                 color="secondary"
                 orientation="horizontal"
-                onChange={(values) =>
-                  handleCheckboxChange("carSafetyFeature", values)
-                }
+                onChange={(values) => handleCheckboxChange("carSafetyFeature", values)}
               >
                 {safetyFeatureData.map((safetyFeature, index) => (
                   <Checkbox key={index} value={safetyFeature.feature}>
@@ -384,9 +287,7 @@ const PostList = ({ listingId }) => {
               </CheckboxGroup>
             </div>
             <div>
-              <p htmlFor="description" className="font-bold pb-3">
-                Description
-              </p>
+              <p htmlFor="description" className="font-bold pb-3">Description</p>
               <CKEditor
                 editor={ClassicEditor}
                 config={editorConfig}
@@ -395,9 +296,7 @@ const PostList = ({ listingId }) => {
               />
             </div>
             <div>
-              <Button type="submit" className="bg-black text-white">
-                Update
-              </Button>
+              <Button isDisabled  type="submit" className="bg-black text-white">Update</Button>
             </div>
           </form>
           <ToastContainer />

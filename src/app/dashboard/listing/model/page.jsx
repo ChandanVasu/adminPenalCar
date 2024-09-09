@@ -204,7 +204,7 @@ export default function Model() {
               placeholder="https://image-url.jpg"
               className="p-2  w-full mb-6"
             />
-            <Button className="ml-2 bg-black text-white" type="submit">
+            <Button isDisabled className="ml-2 bg-black text-white" type="submit">
               {selectedModel ? "Update" : "Add"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}

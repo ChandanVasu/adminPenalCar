@@ -164,7 +164,7 @@ export default function Types() {
               placeholder="https://image-url.jpg"
               className="w-full mb-6"
             />
-            <Button className="w-full bg-black text-white" type="submit">
+            <Button isDisabled className="w-full bg-black text-white" type="submit">
               {selectedType ? "Update" : "Add"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}

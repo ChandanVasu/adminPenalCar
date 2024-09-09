@@ -161,7 +161,7 @@ export default function Color() {
               onChangeComplete={(color) => setColorHex(color.hex)}
               className="mb-10"
             />
-            <Button className="bg-black text-white w-full" type="submit">
+            <Button isDisabled className="bg-black text-white w-full" type="submit">
               {selectedColor ? "Update" : "Add"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
