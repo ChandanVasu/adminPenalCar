@@ -204,7 +204,7 @@ export default function Model() {
               placeholder="https://image-url.jpg"
               className="p-2  w-full mb-6"
             />
-            <Button isDisabled  className="ml-2 bg-black text-white" type="submit">
+            <Button className="ml-2 bg-black text-white" type="submit">
               {selectedModel ? "Update" : "Add"}
             </Button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
@@ -228,7 +228,8 @@ export default function Model() {
                 key={modelItem._id}
                 className="flex justify-between items-center px-5 py-2 mb-4 rounded-md bg-slate-50"
               >
-                <img data-disableanimation
+                <img
+                  data-disableanimation
                   src={modelItem.image}
                   alt={modelItem.model}
                   className="bg-white w-14 h-14 object-cover mr-4 rounded-full shadow-md p-2"

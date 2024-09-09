@@ -110,7 +110,9 @@ export default function CarListing() {
             >
               <div className="relative block">
                 <p
-                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${item.visibility === "Active" ? "bg-green-600" : "bg-red-600"}`}
+                  className={`absolute top-2 left-2 z-50 text-white text-sm px-2 py-1 rounded-md font-medium ${
+                    item.visibility === "Active" ? "bg-green-600" : "bg-red-600"
+                  }`}
                 >
                   {item.visibility}
                 </p>
@@ -140,11 +142,17 @@ export default function CarListing() {
               </div>
               <div className="flex flex-col">
                 <h2 className="text-base font-semibold">
-                  {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
+                  {item.title.length > 25
+                    ? `${item.title.substring(0, 25)}...`
+                    : item.title}
                 </h2>
                 <div className="flex flex-col sm:flex-row justify-between gap-2">
-                  <p className="text-black dark:text-white">Make: {item.make}</p>
-                  <p className="text-black dark:text-white">Model: {item.model}</p>
+                  <p className="text-black dark:text-white">
+                    Make: {item.make}
+                  </p>
+                  <p className="text-black dark:text-white">
+                    Model: {item.model}
+                  </p>
                 </div>
                 <p className="absolute top-0 left-0 text-6xl opacity-10 font-bold text-gray-500">
                   {index + 1}
@@ -164,7 +172,8 @@ export default function CarListing() {
         title="Confirm Deletion"
       >
         <p>
-          Are you sure you want to delete this item? This action cannot be undone.
+          Are you sure you want to delete this item? This action cannot be
+          undone.
         </p>
       </CustomModal>
     </div>

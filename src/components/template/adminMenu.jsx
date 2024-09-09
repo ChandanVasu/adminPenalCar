@@ -1,5 +1,5 @@
 "use client";
-import { FaHome, FaCar, FaPlus, FaList, FaUsers, FaCog, FaBlogger, FaTags } from 'react-icons/fa';
+import { FaHome, FaCar, FaPlus, FaList, FaUsers, FaBell , FaBlogger, FaTags } from 'react-icons/fa';
 import { IoIosColorPalette } from "react-icons/io";
 import { SiRollsroyce } from "react-icons/si";
 import { IoChatbox } from "react-icons/io5";
@@ -21,14 +21,14 @@ const AdminMenu = () => {
           <FaHome className='inline-block mr-2' />
           <Link href="/">Dashboard</Link>
         </li>
-        {/* <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/layouts") ? "bg-black text-white" : "bg-white text-black"}`}>
-          <TbLayoutDashboardFilled className='inline-block mr-2' />
-          <Link href="/">Layouts</Link>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/inquiry") ? "bg-black text-white" : "bg-white text-black"}`}>
+          <FaBell  className='inline-block mr-2' />
+          <Link href="/dashboard/inquiry">inquiry</Link>
         </li>
-        <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/chat") ? "bg-black text-white" : "bg-white text-black"}`}>
+        <li className={`py-2 px-4 flex items-center rounded-lg mb-1 cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/message") ? "bg-black text-white" : "bg-white text-black"}`}>
           <IoChatbox  className='inline-block mr-2' />
-          <Link href="/">Message</Link>
-        </li> */}
+          <Link href="/dashboard/message">Message</Link>
+        </li>
         <p className='ml-4 text-stone-300 font-semibold  text-sm my-2'>CAR LISTING</p>
         <li className={`py-2 px-4 flex items-center rounded-lg cursor-pointer hover:bg-slate-900 hover:text-white ${isActive("/dashboard/listing") ? "bg-black text-white" : "bg-white text-black"}`}>
           <FaCar className='inline-block mr-2' />

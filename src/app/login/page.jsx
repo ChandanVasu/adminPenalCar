@@ -1,19 +1,19 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 import { Input, Button } from "@nextui-org/react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('/api/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
@@ -21,14 +21,14 @@ const LoginPage = () => {
 
       if (response.ok) {
         // Redirect on successful login
-        router.push('/');
+        router.push("/");
       } else {
         // Display error message
         setError(data.message);
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setError('An unexpected error occurred');
+      console.error("Error during login:", error);
+      setError("An unexpected error occurred");
     }
   };
 
@@ -56,20 +56,18 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="text-red-500 text-center">{error}</p>}
-          <Button 
+          <Button
             className="bg-blue-700 text-white hover:bg-blue-800 mt-4"
             onClick={handleLogin}
           >
             Login
           </Button>
           <div>
-        <p>Email- admin</p>
-        <p>Password- password</p>
-      </div>
+            <p>Email- admin</p>
+            <p>Password- password</p>
+          </div>
         </div>
       </div>
-      <p className='bg-red-300 px-5 py-2 text-xl rounded-lg'>Important: Admin All buttons have been disabled for this demo.</p>
-
     </div>
   );
 };

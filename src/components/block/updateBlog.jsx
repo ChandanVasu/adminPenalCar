@@ -8,9 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 // const BlogId = "66afcce7dad4f0262ab86d5c"
 
-const Page = ({BlogId}) => {
-
-
+const Page = ({ BlogId }) => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -23,7 +21,6 @@ const Page = ({BlogId}) => {
   const [categories, setCategories] = useState([]);
 
   const [visibilityOptions] = useState(["Active", "Inactive"]);
-
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -109,18 +106,17 @@ const Page = ({BlogId}) => {
     <div>
       <h3 className="ml-2 font-bold mb-4">Add New Post</h3>
 
-
       <div className="ml-2 mb-4 flex gap-4 md:flex-row flex-col">
-      <Input
-            clearable
-            underlined
-            placeholder="Enter Title"
-            label="Post Main Title"
-            labelPlacement="outside"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-          />
+        <Input
+          clearable
+          underlined
+          placeholder="Enter Title"
+          label="Post Main Title"
+          labelPlacement="outside"
+          name="title"
+          value={formData.title}
+          onChange={handleInputChange}
+        />
         <Input
           clearable
           underlined
@@ -141,7 +137,6 @@ const Page = ({BlogId}) => {
           value={formData.tag}
           onChange={handleInputChange}
         />
-
       </div>
       <div className="ml-2 mb-4 flex gap-4 md:flex-row flex-col">
         <Select
@@ -196,7 +191,7 @@ const Page = ({BlogId}) => {
           onChange={handleEditorChange}
         />
       </div>
-      <Button isDisabled  className="bg-black text-white" onClick={handleSubmit}>
+      <Button className="bg-black text-white" onClick={handleSubmit}>
         Submit
       </Button>
       <ToastContainer />

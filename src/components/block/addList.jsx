@@ -1,6 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Input, Button, Select, SelectItem, CheckboxGroup, Checkbox, } from "@nextui-org/react";
+import {
+  Input,
+  Button,
+  Select,
+  SelectItem,
+  CheckboxGroup,
+  Checkbox,
+} from "@nextui-org/react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import { ClassicEditor, editorConfig } from "@/lib/editorConfig";
 import { ToastContainer, toast } from "react-toastify";
@@ -153,7 +160,6 @@ const PostList = () => {
   const renderInputField = (id, name, placeholder, label, type = "text") => (
     <Input
       type={type}
-
       id={id}
       name={name}
       value={formData[name]}
@@ -365,7 +371,9 @@ const PostList = () => {
           </CheckboxGroup>
         </div>
         <div>
-          <p htmlFor="description" className="font-bold pb-3">Description</p>
+          <p htmlFor="description" className="font-bold pb-3">
+            Description
+          </p>
           <CKEditor
             editor={ClassicEditor}
             config={editorConfig}
@@ -373,7 +381,9 @@ const PostList = () => {
             onChange={handleEditorChange}
           />
         </div>
-        <Button isDisabled  type="submit" className="bg-black text-white">Sumbit</Button>
+        <Button type="submit" className="bg-black text-white">
+          Sumbit
+        </Button>
       </form>
       <ToastContainer />
     </div>
